@@ -1,0 +1,53 @@
+---
+import { tagSlug } from '../lib/posts';
+
+interface Props {
+  tags: string[];
+  active?: string;
+}
+
+const { tags, active } = Astro.props;
+---
+
+<nav class="tag-cloud" aria-label="Filter by tag">
+  <a href="/archive" class:list={['tag', { active: !active }]} aria-current={!active ? 'page' : undefined}>all</a>
+  {tags.map(tag => {
+    const isActive = tagSlug(tag) === active;
+    return (
+      <a
+        href={`/archive/tag/${tagSlug(tag)}`}
+        class:list={['tag', { active: isActive }]}
+        aria-current={isActive ? 'page' : undefined}
+      >
+        {tag}
+      </a>
+    );
+  })}
+</nav>
+
+<style>
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .tag {
+    padding: 0.375rem 0.75rem;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-text);
+    border: 1px solid var(--color-goben);
+    transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+  }
+
+  .tag:hover,
+  .tag.active {
+    background: var(--color-accent);
+    color: var(--color-darkness);
+    border-color: var(--color-accent);
+  }
+</style>

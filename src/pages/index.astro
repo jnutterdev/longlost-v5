@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PostGrid from '../components/PostGrid.astro';
+import home from '../content/home.json';
+import { getPublishedPosts } from '../lib/posts';
+
+const HOME_POST_COUNT = 7;
+
+const posts = (await getPublishedPosts()).slice(0, HOME_POST_COUNT);
+---
+
+<Base description={home.desc}>
+  <Hero
+    tagline={home.tagline}
+    headline={home.headline}
+    description={home.desc}
+    image={home.heroImage}
+    imageAlt={home.heroImageAlt}
+  />
+
+  <section>
+    <SectionHeading title="Latest Transmissions" />
+    <PostGrid posts={posts} />
+    <div class="more">
+      <a href="/archive" class="more-link">Full archive &rarr;</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .more {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--space-2xl);
+  }
+
+  .more-link {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-goben);
+    border-bottom: 2px solid var(--color-magicmetal);
+    padding-bottom: var(--space-2xs);
+    transition: color var(--ease), border-color var(--ease);
+  }
+
+  .more-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+</style>

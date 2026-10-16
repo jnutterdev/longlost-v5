@@ -1,0 +1,269 @@
+---
+interface Props {
+  blueskyUrl: string;
+}
+
+const { blueskyUrl } = Astro.props;
+
+// DID is fixed per handle (resolved once via com.atproto.identity.resolveHandle),
+// so it's hardcoded here instead of re-resolved on every load.
+const BLUESKY_DID = 'did:plc:vbifisq7lutgmcgpvxxsdnx6';
+const rkey = blueskyUrl.split('/').pop();
+const atUri = `at://${BLUESKY_DID}/app.bsky.feed.post/${rkey}`;
+---
+
+<section class="bluesky-comments" data-at-uri={atUri}>
+  <p class="comments-label">replies on bluesky</p>
+  <div class="comments-list" data-comments-list>
+    <p class="comments-status">Loading replies…</p>
+  </div>
+</section>
+
+<script>
+  interface ReplyAuthor {
+    handle: string;
+    displayName?: string;
+    avatar?: string;
+  }
+
+  interface ReplyPost {
+    uri: string;
+    author: ReplyAuthor;
+    record: { text: string; createdAt: string };
+    likeCount?: number;
+  }
+
+  interface ThreadNode {
+    post?: ReplyPost;
+    replies?: ThreadNode[];
+  }
+
+  function postUrl(uri: string, handle: string) {
+    const postRkey = uri.split('/').pop();
+    return `https://bsky.app/profile/${handle}/post/${postRkey}`;
+  }
+
+  function renderReply(node: ThreadNode): HTMLElement | null {
+    if (!node.post) return null;
+    const { author, record, likeCount } = node.post;
+
+    const li = document.createElement('li');
+    li.className = 'comment';
+
+    const link = document.createElement('a');
+    link.className = 'comment-link';
+    link.href = postUrl(node.post.uri, author.handle);
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+
+    if (author.avatar) {
+      const avatar = document.createElement('img');
+      avatar.className = 'comment-avatar';
+      avatar.src = author.avatar;
+      avatar.alt = author.displayName || author.handle;
+      avatar.loading = 'lazy';
+      link.appendChild(avatar);
+    }
+
+    const body = document.createElement('div');
+    body.className = 'comment-body';
+
+    const meta = document.createElement('p');
+    meta.className = 'comment-meta';
+
+    const name = document.createElement('span');
+    name.className = 'comment-author';
+    name.textContent = author.displayName || author.handle;
+
+    const date = document.createElement('span');
+    date.className = 'comment-date';
+    date.textContent = new Date(record.createdAt).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+    });
+
+    meta.append(name, date);
+
+    const text = document.createElement('p');
+    text.className = 'comment-text';
+    text.textContent = record.text;
+
+    body.append(meta, text);
+
+    if (likeCount) {
+      const likes = document.createElement('span');
+      likes.className = 'comment-likes';
+      likes.textContent = `${likeCount} like${likeCount === 1 ? '' : 's'}`;
+      body.appendChild(likes);
+    }
+
+    link.appendChild(body);
+    li.appendChild(link);
+
+    const childReplies = (node.replies || [])
+      .map(renderReply)
+      .filter((n): n is HTMLElement => n !== null);
+    if (childReplies.length) {
+      const nested = document.createElement('ul');
+      nested.className = 'comment-replies';
+      nested.append(...childReplies);
+      li.appendChild(nested);
+    }
+
+    return li;
+  }
+
+  async function loadComments(section: HTMLElement) {
+    const atUri = section.dataset.atUri;
+    const list = section.querySelector('[data-comments-list]');
+    if (!atUri || !list) return;
+
+    try {
+      const res = await fetch(
+        `https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(atUri)}`
+      );
+      if (!res.ok) throw new Error(`Bluesky API error: ${res.status}`);
+      const { thread } = await res.json();
+      const replies: ThreadNode[] = thread?.replies || [];
+
+      list.innerHTML = '';
+
+      if (replies.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'comments-status';
+        empty.textContent = 'No replies yet — start the conversation on Bluesky.';
+        list.appendChild(empty);
+        return;
+      }
+
+      const ul = document.createElement('ul');
+      ul.className = 'comment-thread';
+      ul.append(...replies.map(renderReply).filter((n): n is HTMLElement => n !== null));
+      list.appendChild(ul);
+    } catch (err) {
+      list.innerHTML = '';
+      const error = document.createElement('p');
+      error.className = 'comments-status';
+      error.textContent = 'Could not load replies.';
+      list.appendChild(error);
+      console.error('Bluesky comments error:', err);
+    }
+  }
+
+  const section = document.querySelector<HTMLElement>('[data-at-uri]');
+  if (section) loadComments(section);
+</script>
+
+<style is:global>
+  .bluesky-comments {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-md);
+    border-top: 2px solid var(--color-magicmetal);
+  }
+
+  .comments-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    margin-bottom: var(--space-md);
+  }
+
+  .comments-status {
+    font-size: var(--text-sm);
+    color: var(--color-goben);
+  }
+
+  .comment-thread,
+  .comment-replies {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .comment-replies {
+    margin-top: var(--space-sm);
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--color-magicmetal);
+  }
+
+  .comment-link {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    border-left: 2px solid var(--color-goben);
+    background: rgb(119 109 77 / 0.1);
+    transition: border-color var(--ease), background-color var(--ease);
+  }
+
+  .comment-link:hover {
+    border-color: var(--color-accent);
+    background: rgb(232 120 13 / 0.08);
+  }
+
+  .comment-avatar {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--color-magicmetal);
+    filter: grayscale(40%);
+  }
+
+  .comment-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .comment-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-2xs);
+  }
+
+  .comment-author {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .comment-date {
+    font-size: var(--text-xs);
+    color: var(--color-goben);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .comment-date::before {
+    content: '/';
+    margin-right: var(--space-xs);
+    color: var(--color-magicmetal);
+  }
+
+  .comment-text {
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  .comment-likes {
+    display: inline-block;
+    margin-top: var(--space-2xs);
+    font-size: var(--text-xs);
+    color: var(--color-goben);
+  }
+
+  .comment-link:hover .comment-author {
+    color: var(--color-accent);
+  }
+</style>

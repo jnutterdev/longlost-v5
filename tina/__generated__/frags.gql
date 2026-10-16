@@ -1,0 +1,52 @@
+fragment HomeParts on Home {
+  __typename
+  tagline
+  headline
+  desc
+  heroImage
+  heroImageAlt
+}
+
+fragment AboutParts on About {
+  __typename
+  avatar
+  avatarAlt
+  name
+  handle
+  location
+  bio
+  links {
+    __typename
+    label
+    url
+  }
+}
+
+fragment PostsParts on Posts {
+  __typename
+  title
+  date
+  excerpt
+  tag
+  readTime
+  image
+  featured
+  draft
+  blueskyUrl
+  mastodonUrl
+  currentMusic
+  currentMood
+  body
+}
+
+fragment PhotosParts on Photos {
+  __typename
+  title
+  image
+  alt
+  date
+  location
+  tags
+  draft
+  body
+}

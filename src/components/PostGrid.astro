@@ -1,0 +1,51 @@
+---
+import PostCard from './PostCard.astro';
+import PostCardImage from './PostCardImage.astro';
+import { getCardVariant, type Post } from '../lib/posts';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const cards = posts.map(post => ({ post, variant: getCardVariant(post) }));
+---
+
+<ul class="grid">
+  {cards.map(({ post, variant }) => (
+    <li class:list={{ wide: variant === 'featured' }}>
+      {variant === 'image'
+        ? <PostCardImage post={post} />
+        : <PostCard post={post} featured={variant === 'featured'} />}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-flow: dense;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .wide {
+      grid-column: span 2;
+    }
+  }
+</style>

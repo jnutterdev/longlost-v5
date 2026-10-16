@@ -1,0 +1,149 @@
+---
+import TagList from './TagList.astro';
+import { formatMonthYear } from '../lib/format-date';
+import { getExcerpt, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const href = `/posts/${post.id}/`;
+---
+
+<article class:list={['punk-card', 'punk-card--branches', 'card', { featured }]}>
+  {featured && (
+    <div class="corner" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      </svg>
+    </div>
+  )}
+  {!featured && <div class="bottom-bar" aria-hidden="true"></div>}
+
+  <time class="date" datetime={post.data.date}>{formatMonthYear(post.data.date)}</time>
+  <h3 class="title"><a href={href}>{post.data.title}</a></h3>
+  <p class="excerpt">{getExcerpt(post)}</p>
+  <TagList tags={post.data.tag} />
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-md);
+  }
+
+  .corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-magicmetal);
+    color: var(--color-darkness);
+    transition: background-color var(--ease);
+  }
+
+  .corner svg {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0;
+    transition: opacity var(--ease);
+  }
+
+  .bottom-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--color-magicmetal);
+    transition: background-color var(--ease);
+  }
+
+  .card:hover .corner,
+  .card:focus-within .corner,
+  .card:hover .bottom-bar,
+  .card:focus-within .bottom-bar {
+    background: var(--color-accent);
+  }
+
+  .card:hover .corner svg,
+  .card:focus-within .corner svg {
+    opacity: 1;
+  }
+
+  .date {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .title {
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-xl);
+    line-height: 1.15;
+    color: var(--color-text);
+    transition: color var(--ease);
+  }
+
+  .title a {
+    text-decoration: none;
+  }
+
+  /* Stretch the title link over the whole card; tags sit above it. */
+  .title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .title a:focus-visible {
+    outline: none;
+  }
+
+  .card:hover .title,
+  .card:focus-within .title {
+    color: var(--color-accent);
+  }
+
+  .excerpt {
+    flex-grow: 1;
+    margin: 0 0 var(--space-lg);
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .featured .title {
+    padding-right: var(--space-xl);
+    font-size: var(--text-2xl);
+  }
+
+  .featured .excerpt {
+    font-size: var(--text-lg);
+    max-width: 42rem;
+  }
+
+  @media (min-width: 48rem) {
+    .card {
+      padding: var(--space-lg);
+    }
+
+    .featured .title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

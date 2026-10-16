@@ -1,0 +1,47 @@
+:root {
+  --color-darkness: #14170E;
+  --color-magicmetal: #3E3922;
+  --color-goben: #776D4D;
+  --color-antlervelvet: #BEAD98;
+  --color-martiancolony: #E8780D;
+
+  --color-text: var(--color-antlervelvet);
+  --color-text-muted: rgb(190 173 152 / 0.8);
+  --color-accent: var(--color-martiancolony);
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+
+  --text-xs: 0.6875rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3rem;
+  --text-5xl: 3.75rem;
+
+  --tracking-wide: 0.05em;
+  --tracking-widest: 0.1em;
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 3rem;
+  --space-3xl: 5rem;
+
+  --border-card: 2px solid var(--color-magicmetal);
+  --shadow-offset: 6px 6px 0 var(--color-goben);
+  --shadow-offset-hover: 9px 9px 0 var(--color-martiancolony);
+  --lift: translate(-3px, -3px);
+
+  --content-max: 72rem;
+  --prose-max: 42rem;
+  --gutter: 1.5rem;
+
+  --ease: 0.2s ease-in-out;
+}

@@ -1,0 +1,144 @@
+---
+import TagList from './TagList.astro';
+import { formatShortDate } from '../lib/format-date';
+import { groupByYear, type Post } from '../lib/posts';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const years = groupByYear(posts);
+---
+
+<div class="archive">
+  {years.map(([year, entries]) => (
+    <section class="year-group" aria-labelledby={`year-${year}`}>
+      <h2 class="year" id={`year-${year}`}>
+        {year}
+        <span class="count">{entries.length} {entries.length === 1 ? 'entry' : 'entries'}</span>
+      </h2>
+      <ol class="entries">
+        {entries.map(post => (
+          <li class="entry">
+            <time class="date" datetime={post.data.date}>{formatShortDate(post.data.date)}</time>
+            <a class="title" href={`/posts/${post.id}/`}>{post.data.title}</a>
+            <div class="entry-tags">
+              <TagList tags={post.data.tag} />
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</div>
+
+<style>
+  .archive {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .year-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .year {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: var(--text-3xl);
+    color: var(--color-magicmetal);
+    line-height: 1;
+  }
+
+  .count {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid var(--color-magicmetal);
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: var(--space-2xs) var(--space-sm);
+    align-items: baseline;
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) 0;
+    border-bottom: 1px solid var(--color-magicmetal);
+    border-left: 2px solid transparent;
+    transition: border-color var(--ease), background-color var(--ease), padding var(--ease);
+  }
+
+  .entry:hover,
+  .entry:focus-within {
+    padding-left: var(--space-sm);
+    border-left-color: var(--color-accent);
+    background: rgb(232 120 13 / 0.05);
+  }
+
+  .date {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--text-lg);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color var(--ease);
+  }
+
+  .entry:hover .title,
+  .title:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .entry-tags {
+    grid-column: 2;
+  }
+
+  @media (min-width: 48rem) {
+    .entry {
+      grid-template-columns: 4.5rem 1fr auto;
+    }
+
+    .entry-tags {
+      grid-column: 3;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .year-group {
+      grid-template-columns: 10rem 1fr;
+      gap: var(--space-lg);
+    }
+
+    .year {
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-size: var(--text-4xl);
+      position: sticky;
+      top: var(--space-lg);
+      align-self: start;
+    }
+  }
+</style>

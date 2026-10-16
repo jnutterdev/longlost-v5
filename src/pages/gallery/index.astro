@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PhotoCard from '../../components/PhotoCard.astro';
+import { getPublishedPhotos } from '../../lib/posts';
+
+const photos = await getPublishedPhotos();
+---
+
+<Base title="Gallery" description="Photos and other work.">
+  <SectionHeading title="The Gallery" level="h1" />
+
+  {photos.length > 0
+    ? (
+      <ul class="grid">
+        {photos.map(photo => (
+          <li><PhotoCard photo={photo} /></li>
+        ))}
+      </ul>
+    )
+    : <p class="empty">Nothing developed yet. Check back soon.</p>}
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .empty {
+    color: var(--color-goben);
+  }
+
+  @media (min-width: 40rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xl);
+    }
+  }
+</style>

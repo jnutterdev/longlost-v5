@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.astro/
+.tina/__generated__/
+.DS_Store
+.claude
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example

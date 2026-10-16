@@ -1,0 +1,2 @@
+# Redirect bare /admin to the TinaCMS UI
+/admin  /admin/index.html  301

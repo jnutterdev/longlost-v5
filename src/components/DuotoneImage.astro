@@ -1,0 +1,66 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+}
+
+const { src, alt, loading = 'lazy', class: className } = Astro.props;
+---
+
+<div class:list={['duotone', className]}>
+  <img src={src} alt={alt} loading={loading} decoding="async" />
+  <div class="tint" aria-hidden="true"></div>
+  <div class="halftone texture" aria-hidden="true"></div>
+  <slot />
+</div>
+
+<style>
+  .duotone {
+    position: relative;
+    overflow: hidden;
+  }
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.25);
+    transition: transform 0.7s ease;
+  }
+
+  .tint {
+    position: absolute;
+    inset: 0;
+    background: var(--color-goben);
+    mix-blend-mode: color;
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  .texture {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .duotone:hover img,
+  :global(a:focus-visible) .duotone img {
+    transform: scale(1.05);
+  }
+
+  .duotone:hover .tint {
+    opacity: 0.4;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .duotone:hover img {
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,75 @@
+<div class="blobs" aria-hidden="true">
+  <div class="blob blob-1" data-parallax-x="0.15" data-parallax-y="0.25"></div>
+  <div class="blob blob-2" data-parallax-x="-0.1" data-parallax-y="-0.15"></div>
+  <div class="blob blob-3" data-parallax-x="0.05" data-parallax-y="-0.2"></div>
+</div>
+<div class="noise-bg" aria-hidden="true"></div>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const blobs = document.querySelectorAll<HTMLElement>('[data-parallax-x]');
+  let ticking = false;
+
+  const update = (): void => {
+    const scrolled = window.scrollY;
+    for (const blob of blobs) {
+      const x = Number(blob.dataset.parallaxX) * scrolled;
+      const y = Number(blob.dataset.parallaxY) * scrolled;
+      blob.style.transform = `translate(${x}px, ${y}px)`;
+    }
+    ticking = false;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (reducedMotion.matches || ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    },
+    { passive: true },
+  );
+</script>
+
+<style>
+  .blobs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .blob-1 {
+    width: 50vw;
+    height: 50vw;
+    top: -10%;
+    left: -10%;
+    background: rgb(62 57 34 / 0.2);
+    filter: blur(120px);
+  }
+
+  .blob-2 {
+    width: 60vw;
+    height: 60vw;
+    top: 20%;
+    right: -20%;
+    background: rgb(232 120 13 / 0.05);
+    filter: blur(150px);
+  }
+
+  .blob-3 {
+    width: 40vw;
+    height: 40vw;
+    bottom: -10%;
+    left: 15%;
+    background: rgb(119 109 77 / 0.15);
+    filter: blur(100px);
+  }
+</style>

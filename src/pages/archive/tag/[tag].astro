@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../../layouts/Base.astro';
+import SectionHeading from '../../../components/SectionHeading.astro';
+import TagCloud from '../../../components/TagCloud.astro';
+import ArchiveList from '../../../components/ArchiveList.astro';
+import { getAllTags, getPublishedPosts, tagSlug, type Post } from '../../../lib/posts';
+
+interface Props {
+  tag: string;
+  tags: string[];
+  posts: Post[];
+}
+
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedPosts();
+  const tags = getAllTags(posts);
+  return tags.map(tag => ({
+    params: { tag: tagSlug(tag) },
+    props: {
+      tag,
+      tags,
+      posts: posts.filter(post => post.data.tag.some(t => tagSlug(t) === tagSlug(tag))),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag, tags, posts } = Astro.props;
+---
+
+<Base title={`Tagged: ${tag}`} description={`Posts tagged ${tag}.`}>
+  <SectionHeading title={`Tagged: ${tag}`} level="h1" />
+  <TagCloud tags={tags} active={tagSlug(tag)} />
+  <ArchiveList posts={posts} />
+</Base>

@@ -1,0 +1,61 @@
+---
+import DuotoneImage from './DuotoneImage.astro';
+import { formatMonthYear } from '../lib/format-date';
+import type { Photo } from '../lib/posts';
+
+interface Props {
+  photo: Photo;
+}
+
+const { photo } = Astro.props;
+---
+
+<a class="punk-card card" href={`/gallery/${photo.id}/`}>
+  <DuotoneImage src={photo.data.image} alt={photo.data.alt} class="media" />
+  <div class="caption">
+    <span class="title">{photo.data.title}</span>
+    <time class="date" datetime={photo.data.date}>{formatMonthYear(photo.data.date)}</time>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .card :global(.media) {
+    aspect-ratio: 4 / 5;
+  }
+
+  .caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    border-top: var(--border-card);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text);
+    transition: color var(--ease);
+  }
+
+  .date {
+    flex-shrink: 0;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .card:hover .title,
+  .card:focus-visible .title {
+    color: var(--color-accent);
+  }
+</style>

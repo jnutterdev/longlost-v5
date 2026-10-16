@@ -1,0 +1,126 @@
+.prose {
+  font-size: var(--text-lg);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+}
+
+.prose > * + * {
+  margin-top: 1.25em;
+}
+
+.prose p {
+  margin-bottom: 0;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-top: 2em;
+}
+
+.prose h2 {
+  font-size: var(--text-2xl);
+}
+
+.prose h3 {
+  font-size: var(--text-xl);
+}
+
+.prose strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  color: var(--color-text);
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-left: 2px solid var(--color-accent);
+  background: rgb(232 120 13 / 0.06);
+  font-style: italic;
+}
+
+.prose code {
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  background: rgb(119 109 77 / 0.2);
+  color: var(--color-text);
+}
+
+.prose pre {
+  padding: var(--space-sm);
+  overflow-x: auto;
+  border: var(--border-card);
+  background: rgb(62 57 34 / 0.3);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+
+.prose li::marker {
+  color: var(--color-accent);
+}
+
+.prose hr {
+  border: none;
+  height: 2px;
+  background: var(--color-magicmetal);
+  margin-block: 2.5em;
+}
+
+.prose img {
+  border: var(--border-card);
+  box-shadow: var(--shadow-offset);
+  filter: grayscale(40%) contrast(1.1);
+  transition: filter 0.5s ease;
+}
+
+.prose img:hover {
+  filter: none;
+}
+
+@media (min-width: 48rem) {
+  .prose img.img-right,
+  .prose img.img-left {
+    max-width: 45%;
+    margin-bottom: var(--space-sm);
+    clear: both;
+  }
+
+  .prose img.img-right {
+    float: right;
+    margin-left: var(--space-lg);
+  }
+
+  .prose img.img-left {
+    float: left;
+    margin-right: var(--space-lg);
+  }
+}
+
+.prose::after {
+  content: '';
+  display: block;
+  clear: both;
+}

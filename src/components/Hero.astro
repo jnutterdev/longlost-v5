@@ -1,0 +1,125 @@
+---
+import DuotoneImage from './DuotoneImage.astro';
+
+interface Props {
+  tagline?: string;
+  headline: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
+---
+
+<section class="hero">
+  {image && <DuotoneImage src={image} alt={imageAlt} loading="eager" class="hero-image" />}
+
+  <div class="punk-card punk-card--branches intro">
+    <div class="labels">
+      <span class="badge">Welcome</span>
+      {tagline && <span class="tagline">{tagline}</span>}
+    </div>
+    <h1 class="headline">{headline}</h1>
+    {description && <p class="desc">{description}</p>}
+    <a href="/archive" class="cta">Explore Archive</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    margin-block: var(--space-lg) var(--space-3xl);
+  }
+
+  .hero :global(.hero-image) {
+    min-height: 18rem;
+  }
+
+  .intro {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-lg);
+  }
+
+  .labels {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .badge {
+    padding: var(--space-2xs) var(--space-xs);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-darkness);
+    background: var(--color-accent);
+  }
+
+  .tagline {
+    font-size: 0.75rem;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .headline {
+    margin-bottom: var(--space-md);
+    font-size: clamp(var(--text-xl), 10.5cqi, var(--text-5xl));
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .desc {
+    max-width: 32rem;
+    margin: 0 0 var(--space-lg);
+    font-size: var(--text-lg);
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .cta {
+    align-self: flex-start;
+    padding: 0.75rem var(--space-md);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-darkness);
+    background: var(--color-accent);
+    border: 2px solid transparent;
+    transition: background-color var(--ease), border-color var(--ease);
+  }
+
+  .cta:hover {
+    background: var(--color-text);
+    border-color: var(--color-accent);
+  }
+
+  @media (min-width: 48rem) {
+    .intro {
+      padding: var(--space-xl);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .intro {
+      padding: var(--space-2xl);
+    }
+
+  }
+</style>

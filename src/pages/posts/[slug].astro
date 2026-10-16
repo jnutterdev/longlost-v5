@@ -1,0 +1,228 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import DuotoneImage from '../../components/DuotoneImage.astro';
+import TagList from '../../components/TagList.astro';
+import BlueskyComments from '../../components/BlueskyComments.astro';
+import { formatLongDate } from '../../lib/format-date';
+import { getExcerpt, getPublishedPosts, type Post } from '../../lib/posts';
+import '../../styles/prose.css';
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedPosts();
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[index - 1], older: posts[index + 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, date, readTime, image, tag, currentMood, currentMusic, blueskyUrl } = post.data;
+---
+
+<Base title={title} description={getExcerpt(post, 160)} image={image}>
+  <article class="post">
+    <header class="header">
+      <a href="/archive" class="back">&larr; Archive</a>
+      <p class="meta">
+        <time datetime={date}>{formatLongDate(date)}</time>
+        {readTime && <><span class="sep" aria-hidden="true">/</span><span>{readTime}</span></>}
+      </p>
+      <h1 class="title">{title}</h1>
+      <TagList tags={tag} />
+    </header>
+
+    {image && (
+      <div class="punk-card feature-image">
+        <DuotoneImage src={image} alt="" loading="eager" class="feature-media" />
+      </div>
+    )}
+
+    <div class="prose body">
+      <Content />
+    </div>
+
+    {(currentMood || currentMusic) && (
+      <dl class="vibes">
+        {currentMood && (
+          <div class="vibe">
+            <dt>Mood</dt>
+            <dd>{currentMood}</dd>
+          </div>
+        )}
+        {currentMusic && (
+          <div class="vibe">
+            <dt>Listening to</dt>
+            <dd>{currentMusic}</dd>
+          </div>
+        )}
+      </dl>
+    )}
+
+    {blueskyUrl && <BlueskyComments blueskyUrl={blueskyUrl} />}
+  </article>
+
+  {(newer || older) && (
+    <nav class="pager" aria-label="More posts">
+      {older
+        ? (
+          <a class="punk-card pager-link" href={`/posts/${older.id}/`}>
+            <span class="pager-label">&larr; Older</span>
+            <span class="pager-title">{older.data.title}</span>
+          </a>
+        )
+        : <span></span>}
+      {newer && (
+        <a class="punk-card pager-link newer" href={`/posts/${newer.id}/`}>
+          <span class="pager-label">Newer &rarr;</span>
+          <span class="pager-title">{newer.data.title}</span>
+        </a>
+      )}
+    </nav>
+  )}
+</Base>
+
+<style>
+  .post {
+    max-width: var(--prose-max);
+    margin-inline: auto;
+    padding-top: var(--space-lg);
+  }
+
+  .header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-lg);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-goben);
+    transition: color var(--ease);
+  }
+
+  .back:hover {
+    color: var(--color-accent);
+  }
+
+  .meta {
+    display: flex;
+    gap: var(--space-xs);
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .sep {
+    color: var(--color-magicmetal);
+  }
+
+  .title {
+    margin-bottom: var(--space-md);
+    font-size: var(--text-3xl);
+    line-height: 1.05;
+    color: var(--color-text);
+  }
+
+  .feature-image {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .feature-image:hover {
+    transform: none;
+    box-shadow: var(--shadow-offset);
+    border-color: var(--color-magicmetal);
+  }
+
+  .feature-image :global(.feature-media) {
+    aspect-ratio: 16 / 9;
+  }
+
+  .vibes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    margin: var(--space-2xl) 0 0;
+    padding: var(--space-sm) var(--space-md);
+    border-left: 2px solid var(--color-goben);
+    background: rgb(119 109 77 / 0.1);
+  }
+
+  .vibe dt {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .vibe dd {
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    max-width: var(--prose-max);
+    margin: var(--space-3xl) auto 0;
+  }
+
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    text-decoration: none;
+  }
+
+  .pager-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-goben);
+  }
+
+  .pager-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text);
+    transition: color var(--ease);
+  }
+
+  .pager-link:hover .pager-title {
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 48rem) {
+    .title {
+      font-size: var(--text-5xl);
+    }
+
+    .pager {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .newer {
+      text-align: right;
+    }
+  }
+</style>

@@ -1,0 +1,188 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const items: NavItem[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Archive', href: '/archive' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'About', href: '/about' },
+];
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string): boolean =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<nav class="nav container" aria-label="Main navigation">
+  <a rel="me" href="/" class="logo">longlostforgotten.</a>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="nav-links"
+    data-menu-toggle
+  >
+    <span class="sr-only">Toggle menu</span>
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+    </svg>
+  </button>
+
+  <ul id="nav-links" class="links" data-menu>
+    {items.map(item => (
+      <li>
+        <a
+          href={item.href}
+          class:list={['nav-link', { active: isActive(item.href) }]}
+          aria-current={isActive(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLUListElement>('[data-menu]');
+
+  const setOpen = (open: boolean): void => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    menu?.classList.toggle('open', open);
+  };
+
+  toggle?.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menu?.classList.contains('open')) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
+</script>
+
+<style>
+  .nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: var(--space-lg);
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-xl);
+    letter-spacing: -0.025em;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: color var(--ease);
+  }
+
+  .logo:hover {
+    color: var(--color-accent);
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: var(--space-xs);
+    background: none;
+    border: none;
+    color: var(--color-goben);
+    cursor: pointer;
+  }
+
+  .menu-toggle:hover {
+    color: var(--color-accent);
+  }
+
+  .links {
+    display: flex;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    position: relative;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-goben);
+    transition: color var(--ease);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-accent);
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  @media (max-width: 47.99rem) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: var(--gutter);
+      left: var(--gutter);
+      flex-direction: column;
+      gap: 0;
+      background: var(--color-darkness);
+      border: var(--border-card);
+      box-shadow: var(--shadow-offset);
+    }
+
+    .links.open {
+      display: flex;
+    }
+
+    .links li + li {
+      border-top: 1px solid var(--color-magicmetal);
+    }
+
+    .nav-link {
+      display: block;
+      padding: var(--space-sm) var(--space-md);
+    }
+
+    .nav-link::after {
+      display: none;
+    }
+  }
+</style>

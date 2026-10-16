@@ -1,0 +1,112 @@
+---
+import DuotoneImage from './DuotoneImage.astro';
+import TagList from './TagList.astro';
+import { formatMonthYear } from '../lib/format-date';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const href = `/posts/${post.id}/`;
+const titleId = `card-title-${post.id}`;
+---
+
+<article class="punk-card card">
+  <DuotoneImage src={post.data.image ?? ''} alt="" class="media" />
+  <div class="shade" aria-hidden="true"></div>
+  <div class="halftone overlay" aria-hidden="true"></div>
+
+  <a class="cover-link" href={href} aria-labelledby={titleId}></a>
+
+  <div class="content">
+    <time class="date" datetime={post.data.date}>{formatMonthYear(post.data.date)}</time>
+    <h3 class="title" id={titleId}>{post.data.title}</h3>
+    <TagList tags={post.data.tag} />
+  </div>
+</article>
+
+<style>
+  .card {
+    min-height: 23.75rem;
+    height: 100%;
+  }
+
+  .card :global(.media) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, var(--color-darkness), rgb(20 23 14 / 0.8), transparent);
+    opacity: 0.9;
+    pointer-events: none;
+    transition: opacity var(--ease);
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  .card:hover .shade {
+    opacity: 1;
+  }
+
+  .cover-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .cover-link:focus-visible {
+    outline-offset: -4px;
+  }
+
+  /* Content sits above the cover link but lets clicks fall through, except on tags. */
+  .content {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 100%;
+    padding: var(--space-md);
+    pointer-events: none;
+  }
+
+  .content :global(.tags) {
+    pointer-events: auto;
+  }
+
+  .date {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .title {
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-xl);
+    line-height: 1.15;
+    color: var(--color-text);
+    transition: color var(--ease);
+  }
+
+  .card:hover .title,
+  .card:focus-within .title {
+    color: #fff;
+  }
+</style>

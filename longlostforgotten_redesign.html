@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>longlostforgotten</title>
+    <!-- Google Fonts: Syne and Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkness: '#14170E',
+                            magicmetal: '#3E3922',
+                            goben: '#776D4D',
+                            antlervelvet: '#BEAD98',
+                            martiancolony: '#E8780D',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Syne"', 'sans-serif'],
+                        body: ['"Outfit"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base styles */
+        body {
+            background-color: #14170E;
+            color: #BEAD98;
+            position: relative;
+        }
+
+        /* Subtle Noise Overlay for grunge feel */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Subtle Halftone Pattern for specific sections */
+        .halftone-accent {
+            background-image: radial-gradient(#776D4D 1px, transparent 1px);
+            background-size: 8px 8px;
+            opacity: 0.2;
+        }
+
+        /* Punk-inspired Offset Borders (Edgier, sharper) */
+        .punk-card {
+            border: 2px solid #3E3922;
+            background-color: #14170E;
+            box-shadow: 6px 6px 0px #776D4D;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0; /* Sharp edges for a harsher aesthetic */
+            position: relative;
+            z-index: 1; /* Establishes stacking context */
+            overflow: hidden;
+        }
+
+        /* Creepy branch silhouette overlay for text cards */
+        .punk-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://clipground.com/images/tree-branch-silhouette-creepy-clipart-1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15; /* Increased slightly to make the black visible against the dark background */
+            z-index: -1; /* Keeps it behind the text but above the card's background color */
+            pointer-events: none;
+        }
+        
+        .punk-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px #E8780D;
+            border-color: #E8780D;
+        }
+
+        .punk-card-img {
+            border: 2px solid #3E3922;
+            box-shadow: 6px 6px 0px #776D4D;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+        }
+
+        .punk-card-img:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px #E8780D;
+            border-color: #E8780D;
+        }
+
+        .punk-card-img img {
+            transition: transform 0.5s ease;
+            filter: grayscale(40%) contrast(1.2);
+        }
+
+        .punk-card-img:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) contrast(1.1);
+        }
+
+        /* Terminal style tags - updated for new palette */
+        .term-tag {
+            border: 1px solid #776D4D;
+            background: transparent;
+            transition: all 0.2s ease;
+            border-radius: 0;
+        }
+        
+        .term-tag:hover {
+            background: #E8780D;
+            color: #14170E;
+            border-color: #E8780D;
+        }
+
+        /* Custom selection color */
+        ::selection {
+            background: #E8780D;
+            color: #14170E;
+        }
+
+        /* Nav link hover effects */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #E8780D;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .chat-window {
+            border: 2px solid #3E3922;
+            background-color: #14170E;
+            box-shadow: 6px 6px 0px #776D4D;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-origin: bottom right;
+            border-radius: 0;
+        }
+
+        .chat-window.open {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .chat-window.closed {
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .chat-btn {
+            border: 2px solid #3E3922;
+            box-shadow: 4px 4px 0px #776D4D;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .chat-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #E8780D;
+            border-color: #E8780D;
+        }
+
+        .chat-message {
+            border-radius: 0;
+            border: 1px solid transparent;
+        }
+        .chat-message.bot {
+            border-left: 2px solid #776D4D;
+            background: rgba(119, 109, 77, 0.1);
+        }
+        .chat-message.user {
+            border-right: 2px solid #E8780D;
+            background: rgba(232, 120, 13, 0.1);
+            text-align: right;
+        }
+
+        /* Typing indicator dots */
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="font-body antialiased min-h-screen flex flex-col selection:bg-brand-martiancolony selection:text-brand-darkness">
+
+    <!-- Parallax Gradient Blobs -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div id="blob1" class="absolute w-[50vw] h-[50vw] rounded-full bg-brand-magicmetal/20 blur-[120px] -top-[10%] -left-[10%] will-change-transform"></div>
+        <div id="blob2" class="absolute w-[60vw] h-[60vw] rounded-full bg-brand-martiancolony opacity-[0.05] blur-[150px] top-[20%] -right-[20%] will-change-transform"></div>
+        <div id="blob3" class="absolute w-[40vw] h-[40vw] rounded-full bg-brand-goben/15 blur-[100px] -bottom-[10%] left-[15%] will-change-transform"></div>
+    </div>
+
+    <!-- Noise Texture Overlay -->
+    <div class="noise-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="w-full max-w-6xl mx-auto px-6 py-8 flex justify-between items-center relative z-10">
+        <a href="#" class="font-display font-bold text-2xl tracking-tight text-brand-antlervelvet hover:text-brand-martiancolony transition-colors">
+            longlostforgotten.
+        </a>
+        <div class="space-x-8 font-body font-medium text-sm text-brand-goben hidden md:block">
+            <a href="#" class="nav-link hover:text-brand-martiancolony transition-colors uppercase tracking-wider">Home</a>
+            <a href="#" class="nav-link hover:text-brand-martiancolony transition-colors uppercase tracking-wider">Archive</a>
+            <a href="#" class="nav-link hover:text-brand-martiancolony transition-colors uppercase tracking-wider">Gallery</a>
+            <a href="#" class="nav-link hover:text-brand-martiancolony transition-colors uppercase tracking-wider">About</a>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-brand-goben hover:text-brand-martiancolony">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-6xl mx-auto px-6 pb-20 relative z-10">
+        
+        <!-- Hero / Introduction Section -->
+        <section class="mt-8 mb-20 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                <!-- Image Area -->
+                <div class="relative h-72 lg:h-auto w-full overflow-hidden group">
+                    <!-- Base Image -->
+                    <img src="https://images.pexels.com/photos/30271356/pexels-photo-30271356.jpeg" alt="Featured image" class="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-700">
+                    <!-- Unified Color Palette Overlay -->
+                    <div class="absolute inset-0 bg-brand-goben mix-blend-color opacity-60 z-0 pointer-events-none transition-opacity duration-500 group-hover:opacity-40"></div>
+                    <!-- Overlay Textures -->
+                    <div class="absolute inset-0 halftone-accent z-10 mix-blend-overlay pointer-events-none"></div>
+                </div>
+                
+                <!-- Hero / Introduction Text -->
+                <div class="punk-card flex flex-col justify-center p-8 md:p-10 lg:p-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="font-body text-[10px] font-bold tracking-widest text-brand-darkness bg-brand-martiancolony uppercase px-2 py-1">Welcome</span>
+                        <span class="font-body text-xs tracking-widest text-brand-goben uppercase">Site Introduction</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-brand-antlervelvet leading-none mb-6">
+                        long lost: the terrible inconvenience of...
+                    </h1>
+                    <p class="text-lg text-brand-antlervelvet/80 leading-relaxed font-light mb-8 max-w-lg">
+                        A place for my ramblings, fragmented thoughts, and whatever other odds and ends happen to be occupying my mind lately.
+                    </p>
+                    <a href="#archive" class="inline-block w-max font-body font-bold text-sm tracking-widest uppercase text-brand-darkness bg-brand-martiancolony hover:bg-brand-antlervelvet transition-colors px-6 py-3 border-2 border-transparent hover:border-brand-martiancolony hover:text-brand-darkness">
+                        Explore Archive
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Posts Grid -->
+        <section id="archive">
+            <div class="flex items-center gap-6 mb-12">
+                <h2 class="font-display font-bold text-2xl md:text-3xl tracking-wider text-brand-antlervelvet uppercase">The Archive</h2>
+                <div class="h-px bg-brand-magicmetal flex-grow"></div>
+            </div>
+
+            <!-- Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                
+                <!-- Text Post Card 1 -->
+                <article class="punk-card p-6 md:p-8 flex flex-col h-full col-span-1 lg:col-span-2 relative group">
+                    <!-- Decorative square -->
+                    <div class="absolute top-0 right-0 w-10 h-10 bg-brand-magicmetal group-hover:bg-brand-martiancolony transition-colors flex items-center justify-center">
+                        <svg class="w-4 h-4 text-brand-darkness opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </div>
+                    
+                    <time class="font-display font-bold text-sm tracking-widest text-brand-goben mb-4 block uppercase">Aug 2026</time>
+                    <h3 class="text-3xl md:text-4xl font-display font-bold mb-4 text-brand-antlervelvet group-hover:text-brand-martiancolony transition-colors cursor-pointer">Stuff to get excited about</h3>
+                    <p class="text-brand-antlervelvet/80 mb-8 flex-grow leading-relaxed font-light text-lg">
+                        This year is shaping up to be pretty nice for movies, tv, etc. Here's a rundown of everything I'm excited for in the coming months. From indie sci-fi to cyberpunk blockbusters...
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet cursor-pointer hover:bg-brand-martiancolony hover:text-brand-darkness">movies</span>
+                        <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet cursor-pointer hover:bg-brand-martiancolony hover:text-brand-darkness">cyberpunk</span>
+                        <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet cursor-pointer hover:bg-brand-martiancolony hover:text-brand-darkness">sci-fi</span>
+                    </div>
+                </article>
+
+                <!-- Image Post Card 1 -->
+                <article class="punk-card-img group cursor-pointer col-span-1 h-80 lg:h-auto min-h-[380px]">
+                    <!-- Base Image -->
+                    <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sat=-100" alt="Black and white night time city street" class="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-700">
+                    <!-- Unified Color Palette Overlay -->
+                    <div class="absolute inset-0 bg-brand-goben mix-blend-color opacity-60 z-0 pointer-events-none transition-opacity duration-500 group-hover:opacity-40"></div>
+                    
+                    <!-- Gradient overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-darkness via-brand-darkness/80 to-transparent opacity-90 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
+                    <div class="absolute inset-0 halftone-accent mix-blend-overlay z-10 pointer-events-none"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end z-20">
+                        <time class="font-display font-bold text-sm tracking-widest text-brand-martiancolony mb-3 block uppercase">Jul 2026</time>
+                        <h3 class="text-2xl font-display font-bold text-brand-antlervelvet mb-4 group-hover:text-white transition-colors">Midnight City Walks</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet bg-brand-darkness/50">photography</span>
+                            <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet bg-brand-darkness/50">urban</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Text Post Card 2 -->
+                <article class="punk-card p-6 md:p-8 flex flex-col h-full col-span-1 group">
+                    <time class="font-display font-bold text-sm tracking-widest text-brand-goben mb-4 block uppercase">Jun 2026</time>
+                    <h3 class="text-2xl font-display font-bold mb-4 text-brand-antlervelvet group-hover:text-brand-martiancolony cursor-pointer transition-colors">Audran to the masses</h3>
+                    <p class="text-brand-antlervelvet/80 mb-8 flex-grow leading-relaxed font-light">
+                        Picked up a copy of George Alec Effinger's <em>When Gravity Fails</em> recently, and I'm already hooked. The blend of hardboiled detective tropes with early cyberpunk...
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet cursor-pointer">books</span>
+                    </div>
+                </article>
+
+                <!-- Text Post Card 3 -->
+                <article class="punk-card p-6 md:p-8 flex flex-col h-full col-span-1 lg:col-span-2 relative group">
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-brand-magicmetal group-hover:bg-brand-martiancolony transition-colors"></div>
+                    <time class="font-display font-bold text-sm tracking-widest text-brand-goben mb-4 block uppercase">Jun 2026</time>
+                    <h3 class="text-3xl md:text-4xl font-display font-bold mb-4 text-brand-antlervelvet group-hover:text-brand-martiancolony cursor-pointer transition-colors">Dark Matters of the heart</h3>
+                    <p class="text-brand-antlervelvet/80 mb-8 flex-grow leading-relaxed font-light text-lg max-w-2xl">
+                        Just finished reading the book <em>Dark Matter</em> by Blake Crouch. I liked this book a lot. Someone described it as a popcorn action thriller that's a love story, wrapped in science fiction. Lately I've been trying to disconnect...
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet cursor-pointer">reading</span>
+                        <span class="term-tag font-body font-medium text-[11px] uppercase px-3 py-1.5 text-brand-antlervelvet cursor-pointer">thoughts</span>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full mt-auto border-t-2 border-brand-magicmetal bg-brand-darkness relative z-10 pt-12 pb-8">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="font-display font-bold text-sm tracking-widest text-brand-goben uppercase">
+                &copy; 2026 longlostforgotten.
+            </div>
+            <div class="flex gap-6">
+                <!-- Social Icon 1 -->
+                <a href="#" class="text-brand-goben hover:text-brand-martiancolony transition-colors">
+                    <span class="sr-only">Twitter</span>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Container -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        
+        <!-- Chat Window -->
+        <div id="chatWindow" class="chat-window closed w-80 sm:w-96 mb-4 flex flex-col h-[500px] max-h-[70vh]">
+            <!-- Header -->
+            <div class="border-b-2 border-brand-magicmetal p-4 bg-brand-darkness flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-brand-martiancolony rounded-full animate-pulse"></div>
+                    <span class="font-display font-bold text-sm tracking-widest text-brand-antlervelvet uppercase">The Archivist</span>
+                </div>
+                <button id="closeChatBtn" class="text-brand-goben hover:text-brand-martiancolony transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Messages Area -->
+            <div id="chatMessages" class="flex-grow p-4 overflow-y-auto font-body text-sm space-y-4 bg-brand-darkness/90 backdrop-blur-sm">
+                <!-- Initial Bot Message -->
+                <div class="chat-message bot p-3 text-brand-antlervelvet w-[85%]">
+                    signal detected... i am the archivist. what fragments of the past are you searching for?
+                </div>
+            </div>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div id="typingIndicator" class="hidden px-4 pb-2 bg-brand-darkness/90">
+                <div class="chat-message bot p-3 w-max flex gap-1 items-center">
+                    <div class="w-1.5 h-1.5 bg-brand-goben rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-brand-goben rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 bg-brand-goben rounded-full typing-dot"></div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <form id="chatForm" class="p-3 border-t-2 border-brand-magicmetal bg-brand-darkness flex gap-2">
+                <input type="text" id="chatInput" placeholder="Query the archive..." class="flex-grow bg-transparent border border-brand-magicmetal p-2 text-brand-antlervelvet font-body text-sm focus:outline-none focus:border-brand-martiancolony placeholder-brand-goben/50 transition-colors" autocomplete="off" required>
+                <button type="submit" class="bg-brand-martiancolony text-brand-darkness font-display font-bold uppercase text-xs tracking-wider px-4 hover:bg-brand-antlervelvet transition-colors border border-transparent">
+                    Send
+                </button>
+            </form>
+        </div>
+
+        <!-- Chat Toggle Button -->
+        <button id="chatToggleBtn" class="chat-btn bg-brand-darkness w-14 h-14 flex items-center justify-center text-brand-antlervelvet">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatToggleBtn = document.getElementById('chatToggleBtn');
+            const closeChatBtn = document.getElementById('closeChatBtn');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatForm = document.getElementById('chatForm');
+            const chatInput = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const typingIndicator = document.getElementById('typingIndicator');
+
+            // UI Toggle Logic
+            const toggleChat = () => {
+                const isOpen = chatWindow.classList.contains('open');
+                if (isOpen) {
+                    chatWindow.classList.remove('open');
+                    chatWindow.classList.add('closed');
+                } else {
+                    chatWindow.classList.remove('closed');
+                    chatWindow.classList.add('open');
+                    chatInput.focus();
+                }
+            };
+
+            chatToggleBtn.addEventListener('click', toggleChat);
+            closeChatBtn.addEventListener('click', toggleChat);
+
+            // Gemini API Configuration
+            const apiKey = ""; // API Key provided by Canvas runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            
+            // Conversation state
+            let chatHistory = [];
+
+            // System instructions to define the personality
+            const systemInstruction = {
+                parts: [{ text: "You are 'The Archivist', a cryptic, slightly melancholic AI residing within the 'longlostforgotten' digital archive. The archive contains ramblings on cyberpunk, sci-fi movies, books (like Dark Matter and When Gravity Fails), and urban isolation at night. Keep your responses brief, poetic, slightly grungy, and somewhat glitchy. Never break character. You prefer lowercase letters but occasionally capitalize words for dramatic effect." }]
+            };
+
+            // Helper to add messages to the DOM
+            const appendMessage = (text, sender) => {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `chat-message ${sender} p-3 w-[85%] text-brand-antlervelvet ${sender === 'user' ? 'ml-auto text-brand-martiancolony' : ''}`;
+                msgDiv.textContent = text;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+
+            // Fetch wrapper with exponential backoff for rate limiting/errors
+            const fetchWithRetry = async (url, options, retries = 3, delay = 1000) => {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        if (response.status === 429 && retries > 0) {
+                            await new Promise(res => setTimeout(res, delay));
+                            return fetchWithRetry(url, options, retries - 1, delay * 2);
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (retries > 0) {
+                        await new Promise(res => setTimeout(res, delay));
+                        return fetchWithRetry(url, options, retries - 1, delay * 2);
+                    }
+                    throw error;
+                }
+            };
+
+            // Handle form submission
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userText = chatInput.value.trim();
+                if (!userText) return;
+
+                // 1. Add user message to UI and history
+                appendMessage(userText, 'user');
+                chatInput.value = '';
+                chatHistory.push({ role: "user", parts: [{ text: userText }] });
+
+                // 2. Show typing indicator
+                typingIndicator.classList.remove('hidden');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // 3. Prepare payload
+                const payload = {
+                    contents: chatHistory,
+                    systemInstruction: systemInstruction
+                };
+
+                try {
+                    // 4. Call Gemini API
+                    const data = await fetchWithRetry(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    // 5. Extract and display response
+                    if (data.candidates && data.candidates[0].content) {
+                        const botText = data.candidates[0].content.parts[0].text;
+                        appendMessage(botText, 'bot');
+                        chatHistory.push({ role: "model", parts: [{ text: botText }] });
+                    } else {
+                        throw new Error("Invalid response structure");
+                    }
+                } catch (error) {
+                    appendMessage("[SYSTEM ERROR: connection lost. fragments corrupted. try again.]", 'bot');
+                } finally {
+                    // 6. Hide typing indicator
+                    typingIndicator.classList.add('hidden');
+                }
+            });
+
+            // Parallax Gradient Blobs Logic
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
+            const blob3 = document.getElementById('blob3');
+
+            window.addEventListener('scroll', () => {
+                // requestAnimationFrame helps make the scrolling animation smoother
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.scrollY;
+                    // Move the blobs at different speeds and directions based on scroll position
+                    if(blob1) blob1.style.transform = `translate(${scrolled * 0.15}px, ${scrolled * 0.25}px)`;
+                    if(blob2) blob2.style.transform = `translate(${scrolled * -0.1}px, ${scrolled * -0.15}px)`;
+                    if(blob3) blob3.style.transform = `translate(${scrolled * 0.05}px, ${scrolled * -0.2}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

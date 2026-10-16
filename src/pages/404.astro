@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Signal lost">
+  <section class="lost punk-card punk-card--branches">
+    <span class="code">404</span>
+    <h1 class="title">signal lost.</h1>
+    <p class="desc">whatever was here has been long lost and forgotten.</p>
+    <a href="/" class="link">Return home</a>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    max-width: 36rem;
+    margin: var(--space-3xl) auto;
+    padding: var(--space-2xl);
+  }
+
+  .code {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--text-5xl);
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .title {
+    margin-block: var(--space-sm);
+    font-size: var(--text-3xl);
+    color: var(--color-text);
+  }
+
+  .desc {
+    margin: 0 0 var(--space-lg);
+    font-weight: 300;
+    color: var(--color-text-muted);
+  }
+
+  .link {
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+</style>
