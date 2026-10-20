@@ -57,9 +57,14 @@ const bioParagraphs = about.bio
         gap: var(--space-2xl);
     }
 
+    /* Centered when stacked on mobile; left-aligned in the desktop sidebar. */
+    .profile {
+        text-align: center;
+    }
+
     .avatar-frame {
         max-width: 16rem;
-        margin-bottom: var(--space-md);
+        margin: 0 auto var(--space-md);
         overflow: hidden;
         border: var(--border-card);
         border-radius: 999px 999px 0 0;
@@ -149,6 +154,14 @@ const bioParagraphs = about.bio
     @media (min-width: 48rem) {
         .about {
             grid-template-columns: 16rem 1fr;
+        }
+
+        .profile {
+            text-align: left;
+        }
+
+        .avatar-frame {
+            margin-inline: 0;
         }
 
         .bio {

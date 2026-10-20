@@ -71,7 +71,8 @@ const isActive = (href: string): boolean =>
 <style>
   .nav {
     position: relative;
-    z-index: 10;
+    /* Above .main (z-index 10) so the mobile dropdown overlays page content. */
+    z-index: 20;
     display: flex;
     justify-content: space-between;
     align-items: center;
