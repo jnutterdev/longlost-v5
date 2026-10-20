@@ -1,7 +1,7 @@
 ---
-title: Placeholder Frame
+title: Gatlinburg, TN
 image: /images/placeholders/hero.jpg
-alt: Placeholder photo from the redesign mockup
+alt: Black and white photo from a mountain top in Gatlinburg, TN
 date: 2026-06-20
 tags:
   - placeholder

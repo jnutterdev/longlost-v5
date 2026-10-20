@@ -1,8 +1,8 @@
 ---
-title: Midnight City Walks
-image: /images/placeholders/city-night.jpg
-alt: Black and white city street at night
-date: 2026-07-12
+title: Walk through the forest
+image: /images/placeholders/forest-walk.jpg
+alt: Black and white forest scene with deck trail
+date: 2024-08-18
 location: placeholder
 tags:
   - urban

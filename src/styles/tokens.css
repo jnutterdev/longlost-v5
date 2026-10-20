@@ -1,13 +1,13 @@
 :root {
-  --color-darkness: #14170E;
-  --color-magicmetal: #3E3922;
-  --color-goben: #776D4D;
-  --color-antlervelvet: #BEAD98;
-  --color-martiancolony: #E8780D;
+  --color-hightide: #313841;
+  --color-cadetblue: #3A4750;
+  --color-slate: #8A96A3;
+  --color-pebble: #EEEEEE;
+  --color-yam: #EA9216;
 
-  --color-text: var(--color-antlervelvet);
-  --color-text-muted: rgb(190 173 152 / 0.8);
-  --color-accent: var(--color-martiancolony);
+  --color-text: var(--color-pebble);
+  --color-text-muted: rgb(238 238 238 / 0.75);
+  --color-accent: var(--color-yam);
 
   --font-display: 'Syne', sans-serif;
   --font-body: 'Outfit', sans-serif;
@@ -34,9 +34,9 @@
   --space-2xl: 3rem;
   --space-3xl: 5rem;
 
-  --border-card: 2px solid var(--color-magicmetal);
-  --shadow-offset: 6px 6px 0 var(--color-goben);
-  --shadow-offset-hover: 9px 9px 0 var(--color-martiancolony);
+  --border-card: 2px solid var(--color-cadetblue);
+  --shadow-offset: 6px 6px 0 var(--color-slate);
+  --shadow-offset-hover: 9px 9px 0 var(--color-yam);
   --lift: translate(-3px, -3px);
 
   --content-max: 72rem;

@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: var(--color-darkness);
+  background-color: var(--color-hightide);
   color: var(--color-text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -41,7 +41,7 @@ img {
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-darkness);
+  color: var(--color-hightide);
 }
 
 :focus-visible {
@@ -78,7 +78,7 @@ img {
 }
 
 .halftone {
-  background-image: radial-gradient(var(--color-goben) 1px, transparent 1px);
+  background-image: radial-gradient(var(--color-slate) 1px, transparent 1px);
   background-size: 8px 8px;
   opacity: 0.2;
 }
@@ -88,7 +88,7 @@ img {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  background-color: var(--color-darkness);
+  background-color: var(--color-hightide);
   border: var(--border-card);
   box-shadow: var(--shadow-offset);
   transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
@@ -100,7 +100,6 @@ img {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: url('/images/branches.svg') center / cover no-repeat;
   opacity: 0.35;
 }
 

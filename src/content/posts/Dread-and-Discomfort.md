@@ -4,7 +4,7 @@ date: 2026-06-03T04:48:49.815Z
 excerpt: 'Sometime back in 2016 or 2017, I began writing a story that is kind of a neo-noir, thriller. I didn''t get very far, but I''m going to try and start writing it again. To keep me honest, I''ll try to release pieces of it as I go.'
 tag: fragment
 readTime: 5 min
-image: /dread-and-discomfort.jpg
+image: /images/dread-and-discomfort.jpg
 featured: false
 draft: false
 ---
