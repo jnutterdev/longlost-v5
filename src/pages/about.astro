@@ -1,144 +1,158 @@
 ---
-import Base from '../layouts/Base.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import Fin from '../components/Fin.astro';
-import about from '../content/about.json';
+import Base from "../layouts/Base.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Fin from "../components/Fin.astro";
+import about from "../content/about.json";
 
-const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.trim());
+const bioParagraphs = about.bio
+    .split(/\n\n+/)
+    .filter((paragraph) => paragraph.trim());
 ---
 
 <Base title="About" description={bioParagraphs[0]}>
-  <SectionHeading title="About" level="h1" />
+    <SectionHeading title="About" level="h1" />
 
-  <div class="about">
-    <aside class="profile">
-      {about.avatar && (
-        <div class="avatar-frame">
-          <img class="avatar" src={about.avatar} alt={about.avatarAlt} />
+    <div class="about">
+        <aside class="profile">
+            {about.avatar && (
+                <div class="avatar-frame">
+                    <img
+                        class="avatar"
+                        src={about.avatar}
+                        alt={about.avatarAlt}
+                    />
+                </div>
+            )}
+            <p class="name">{about.name}</p>
+            <p class="handle">{about.handle}</p>
+            <p class="location">{about.location}</p>
+        </aside>
+
+        <div class="punk-card punk-card--branches punk-card--framed bio">
+            {bioParagraphs.map((paragraph) => (
+                <p>{paragraph}</p>
+            ))}
+
+            {about.links.length > 0 && (
+                <ul class="links">
+                    {about.links.map((link) => (
+                        <li>
+                            <a href={link.url} rel="me">
+                                {link.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
+
+            <Fin shape="pines" />
         </div>
-      )}
-      <p class="name">{about.name}</p>
-      <p class="handle">{about.handle}</p>
-      <p class="location">{about.location}</p>
-    </aside>
-
-    <div class="punk-card punk-card--branches punk-card--framed bio">
-      {bioParagraphs.map(paragraph => <p>{paragraph}</p>)}
-
-      {about.links.length > 0 && (
-        <ul class="links">
-          {about.links.map(link => (
-            <li><a href={link.url} rel="me">{link.label}</a></li>
-          ))}
-        </ul>
-      )}
-
-      <Fin shape="pines" />
     </div>
-  </div>
 </Base>
 
 <style>
-  .about {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
-  }
-
-  .avatar-frame {
-    max-width: 16rem;
-    margin-bottom: var(--space-md);
-    overflow: hidden;
-    border: var(--border-card);
-    border-radius: 999px 999px 0 0;
-    box-shadow: var(--shadow-offset);
-  }
-
-  .avatar {
-    width: 100%;
-    image-rendering: pixelated;
-  }
-
-  .name {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--text-xl);
-    color: var(--color-text);
-  }
-
-  .handle {
-    margin: var(--space-2xs) 0;
-    color: var(--color-accent);
-  }
-
-  .location {
-    margin: 0;
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-    color: var(--color-khaki);
-  }
-
-  .bio {
-    padding: var(--space-lg);
-    font-size: var(--text-lg);
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--color-text-muted);
-  }
-
-  .bio:hover {
-    transform: none;
-    box-shadow: var(--shadow-offset);
-    border-color: var(--color-olive);
-  }
-
-  /* The bio doesn't react to hover, so keep its frame olive too. */
-  .bio:hover::after,
-  .bio:focus-within::after {
-    --frame-color: var(--color-olive);
-  }
-
-  .bio p {
-    margin: 0 0 1.25em;
-    white-space: pre-line;
-  }
-
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    list-style: none;
-    margin: var(--space-lg) 0 0;
-    padding: 0;
-  }
-
-  .links a {
-    display: inline-block;
-    padding: 0.375rem 0.75rem;
-    font-size: var(--text-xs);
-    font-weight: 500;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--color-text);
-    border: 1px solid var(--color-khaki);
-    transition: background-color var(--ease), color var(--ease), border-color var(--ease);
-  }
-
-  .links a:hover {
-    background: var(--color-accent);
-    color: var(--color-ink);
-    border-color: var(--color-accent);
-  }
-
-  @media (min-width: 48rem) {
     .about {
-      grid-template-columns: 16rem 1fr;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+
+    .avatar-frame {
+        max-width: 16rem;
+        margin-bottom: var(--space-md);
+        overflow: hidden;
+        border: var(--border-card);
+        border-radius: 999px 999px 0 0;
+        box-shadow: var(--shadow-offset);
+    }
+
+    .avatar {
+        width: 100%;
+    }
+
+    .name {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: var(--text-xl);
+        color: var(--color-text);
+    }
+
+    .handle {
+        margin: var(--space-2xs) 0;
+        color: var(--color-accent);
+    }
+
+    .location {
+        margin: 0;
+        font-size: var(--text-xs);
+        letter-spacing: var(--tracking-widest);
+        text-transform: uppercase;
+        color: var(--color-khaki);
     }
 
     .bio {
-      padding: var(--space-2xl);
+        padding: var(--space-lg);
+        font-size: var(--text-lg);
+        font-weight: 300;
+        line-height: 1.8;
+        color: var(--color-text-muted);
     }
-  }
+
+    .bio:hover {
+        transform: none;
+        box-shadow: var(--shadow-offset);
+        border-color: var(--color-olive);
+    }
+
+    /* The bio doesn't react to hover, so keep its frame olive too. */
+    .bio:hover::after,
+    .bio:focus-within::after {
+        --frame-color: var(--color-olive);
+    }
+
+    .bio p {
+        margin: 0 0 1.25em;
+        white-space: pre-line;
+    }
+
+    .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+        list-style: none;
+        margin: var(--space-lg) 0 0;
+        padding: 0;
+    }
+
+    .links a {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        font-size: var(--text-xs);
+        font-weight: 500;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--color-text);
+        border: 1px solid var(--color-khaki);
+        transition:
+            background-color var(--ease),
+            color var(--ease),
+            border-color var(--ease);
+    }
+
+    .links a:hover {
+        background: var(--color-accent);
+        color: var(--color-ink);
+        border-color: var(--color-accent);
+    }
+
+    @media (min-width: 48rem) {
+        .about {
+            grid-template-columns: 16rem 1fr;
+        }
+
+        .bio {
+            padding: var(--space-2xl);
+        }
+    }
 </style>
