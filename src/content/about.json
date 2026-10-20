@@ -2,7 +2,6 @@
   "avatar": "/images/jndev2.jpg",
   "avatarAlt": "Black and white photo of John taken Oct. 20, 2026",
   "name": "john nutter",
-  "handle": "@longlostforgotten.com",
   "location": "decatur, ga",
   "bio": "Howdy! I'm John. Software engineer by trade. But I love other things like pixelart, TTRPGs, metal, synths, idm, bitwig, books, anime/manga, \n80s and early 90s sci-fi/cyberpunk. I live in Decatur, GA with my wife and two kids. \n\nSo I started longlostforgotten about 25+ years ago, maybe? It's taken on many different forms, but started out originally as a livejournal (heh). It's a place to log all of my ramblings, musings, and other odd bits that cross my mind. ",
   "links": [
@@ -11,16 +10,34 @@
       "url": "https://github.com/jnutterdev"
     },
     {
+      "label": "bluesky",
+      "url": "https://bsky.app/profile/longlostforgotten.com"
+    },
+    {
       "label": "mastodon",
       "url": "https://mastodon.social/@longlostforgotten"
     },
     {
       "label": "threads",
       "url": "https://www.threads.com/@lnglostfrgttn"
-    },
+    }
+  ],
+  "websites": [
     {
       "label": "jnutter.dev",
       "url": "https://jnutter.dev"
+    },
+    {
+      "label": "ashtephra.com",
+      "url": "https://ashtephra.com"
+    },
+    {
+      "label": "withonlyamap.com",
+      "url": "https://withonlyamap.com"
+    },
+    {
+      "label": "terribledevice.com",
+      "url": "https://terribledevice.com"
     }
   ]
 }

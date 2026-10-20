@@ -8,6 +8,11 @@ import about from "../content/about.json";
 const bioParagraphs = about.bio
     .split(/\n\n+/)
     .filter((paragraph) => paragraph.trim());
+
+const linkGroups = [
+    { label: "elsewhere", links: about.links },
+    { label: "websites", links: about.websites },
+].filter((group) => group.links.length > 0);
 ---
 
 <Base title="About" description={bioParagraphs[0]}>
@@ -26,7 +31,6 @@ const bioParagraphs = about.bio
                 </div>
             )}
             <p class="name">{about.name}</p>
-            <p class="handle">{about.handle}</p>
             <p class="location">{about.location}</p>
         </aside>
 
@@ -35,17 +39,20 @@ const bioParagraphs = about.bio
                 <p>{paragraph}</p>
             ))}
 
-            {about.links.length > 0 && (
-                <ul class="links">
-                    {about.links.map((link) => (
-                        <li>
-                            <a href={link.url} rel="me">
-                                {link.label}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            {linkGroups.map((group) => (
+                <div class="link-group">
+                    <p class="link-group-label">{group.label}</p>
+                    <ul class="links">
+                        {group.links.map((link) => (
+                            <li>
+                                <a href={link.url} rel="me">
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
 
             <Fin shape="pines" />
         </div>
@@ -86,13 +93,8 @@ const bioParagraphs = about.bio
         color: var(--color-text);
     }
 
-    .handle {
-        margin: var(--space-2xs) 0;
-        color: var(--color-accent);
-    }
-
     .location {
-        margin: 0;
+        margin: var(--space-2xs) 0 0;
         font-size: var(--text-xs);
         letter-spacing: var(--tracking-widest);
         text-transform: uppercase;
@@ -124,12 +126,24 @@ const bioParagraphs = about.bio
         white-space: pre-line;
     }
 
+    .link-group {
+        margin-top: var(--space-lg);
+    }
+
+    .link-group-label {
+        margin: 0 0 var(--space-xs);
+        font-size: var(--text-xs);
+        letter-spacing: var(--tracking-widest);
+        text-transform: uppercase;
+        color: var(--color-khaki);
+    }
+
     .links {
         display: flex;
         flex-wrap: wrap;
         gap: var(--space-xs);
         list-style: none;
-        margin: var(--space-lg) 0 0;
+        margin: 0;
         padding: 0;
     }
 
