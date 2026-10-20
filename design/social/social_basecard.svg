@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1" fill="#9A9478" />
+    </pattern>
+    <radialGradient id="glow-olive" cx="0.1" cy="0.05" r="0.7">
+      <stop offset="0" stop-color="#767151" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#767151" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow-sienna" cx="0.95" cy="1" r="0.6">
+      <stop offset="0" stop-color="#AB572C" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#AB572C" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background: ink, glows, halftone -->
+  <rect width="1200" height="630" fill="#1a1a1a" />
+  <rect width="1200" height="630" fill="url(#glow-olive)" />
+  <rect width="1200" height="630" fill="url(#glow-sienna)" />
+  <rect width="1200" height="630" fill="url(#dots)" opacity="0.12" />
+
+  <!-- Deco inset frame with corner blocks -->
+  <g fill="#767151">
+    <rect x="24" y="24" width="1152" height="582" fill="none" stroke="#767151" stroke-width="1.5" />
+    <rect x="24" y="24" width="8" height="8" />
+    <rect x="1168" y="24" width="8" height="8" />
+    <rect x="24" y="598" width="8" height="8" />
+    <rect x="1168" y="598" width="8" height="8" />
+  </g>
+
+  <!-- Top labels -->
+  <text x="80" y="104" font-family="Outfit, sans-serif" font-weight="500" font-size="22" letter-spacing="1.5" fill="#9A9478">longlostforgotten.com</text>
+  <text x="1120" y="104" text-anchor="end" font-family="Outfit, sans-serif" font-weight="500" font-size="18" letter-spacing="4" fill="#9A9478">EST. 2002</text>
+
+  <!-- Headline -->
+  <g font-family="Syne, sans-serif" font-weight="700" font-size="80" fill="#EFE3D9">
+    <text x="80" y="222">long lost: the terrible</text>
+    <text x="80" y="310">inconvenience of</text>
+  </g>
+
+  <!-- Intro -->
+  <g font-family="Outfit, sans-serif" font-weight="300" font-size="27" fill="#EFE3D9" fill-opacity="0.75">
+    <text x="80" y="382">a place for my ramblings, musings, fragmented thoughts,</text>
+    <text x="80" y="422">and the various other odds and ends that creep through my head.</text>
+  </g>
+
+  <!-- Sunrise on a double-line horizon -->
+  <g fill="none" stroke="#767151" stroke-width="1.5">
+    <path d="M80 531H516M80 538H516M684 531H1120M684 538H1120" />
+  </g>
+  <g transform="translate(528 466) scale(3)" fill="#AB572C">
+    <path d="M17 24a7 7 0 0 1 14 0z" />
+    <path stroke="#AB572C" stroke-width="2" d="M33.24 20.17 44.33 15.58M31.07 16.93 39.56 8.44M27.83 14.76 32.42 3.67M24 14V2M20.17 14.76 15.58 3.67M16.93 16.93 8.44 8.44M14.76 20.17 3.67 15.58" />
+  </g>
+</svg>
