@@ -254,7 +254,7 @@ const ornaments = [
       </div>
       <div>
         <p class="demo-label">Arched avatar <span>About page</span></p>
-        <div class="avatar-arch"><img src={placeholder} alt="" /></div>
+        <div class="avatar-arch"><DuotoneImage src={placeholder} alt="" class="avatar-media" /></div>
       </div>
     </div>
   </section>
@@ -577,11 +577,8 @@ const ornaments = [
     box-shadow: var(--shadow-offset);
   }
 
-  .avatar-arch img {
-    width: 100%;
+  .avatar-arch :global(.avatar-media) {
     aspect-ratio: 1;
-    object-fit: cover;
-    filter: grayscale(100%);
   }
 
   @media (min-width: 48rem) {

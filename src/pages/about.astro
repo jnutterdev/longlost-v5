@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Fin from "../components/Fin.astro";
+import DuotoneImage from "../components/DuotoneImage.astro";
 import about from "../content/about.json";
 
 const bioParagraphs = about.bio
@@ -16,10 +17,11 @@ const bioParagraphs = about.bio
         <aside class="profile">
             {about.avatar && (
                 <div class="avatar-frame">
-                    <img
+                    <DuotoneImage
                         class="avatar"
                         src={about.avatar}
                         alt={about.avatarAlt}
+                        loading="eager"
                     />
                 </div>
             )}
@@ -71,8 +73,9 @@ const bioParagraphs = about.bio
         box-shadow: var(--shadow-offset);
     }
 
-    .avatar {
-        width: 100%;
+    /* DuotoneImage fills its box, so the frame sets the shape. */
+    .avatar-frame :global(.avatar) {
+        aspect-ratio: 1;
     }
 
     .name {
