@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 I've found my new love, and she's a gem. No, really. I've fallen in love with Ruby, the language. Now I know what all the fuss is about. It's really a pleasure to code in, even more so than Python. So much so that I can't stop thinking about it. Like, I wake up every morning thinking about what method I can use next, or what sort of little script I can write to simplify my daily tasks. In fact, I wrote this post using a script that generates the front matter with the title and time filled out. Makes writing blog posts a little more streamlined. 

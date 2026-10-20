@@ -1,0 +1,11 @@
+{
+  "contentTypes": [
+    {
+      "dir": "src/content/posts/",
+      "urlPath": "posts",
+      "excerptField": "excerpt",
+      "imageField": "image",
+      "ext": ".md"
+    }
+  ]
+}

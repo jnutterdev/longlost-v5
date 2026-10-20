@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 It's been awhile since I've posted an update, but you know, holidays can be a busy time for all. My main focus for the last couple of days has been learning more command line and programming skills. 

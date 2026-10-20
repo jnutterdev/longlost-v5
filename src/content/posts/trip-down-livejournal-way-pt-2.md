@@ -11,6 +11,7 @@ blueskyUrl: 'https://bsky.app/profile/longlostforgotten.com/post/3mojeo6r6ht2t'
 mastodonUrl: 'https://mastodon.social/@longlostforgotten/116767827357951309'
 currentMusic: blamstrain - diacedita
 currentMood: "Nostalgic \U0001F647‍♂️"
+announced: true
 ---
 
 So earlier today, I mentioned [going through all my livejournal posts ](https://longlostforgotten.com/posts/trip-down-livejournal-lane/)and porting them over here. Well after I did that, I compiled a list of all the songs that I ever mentioned listening to while writing them. The dates/years aren't listed next to them, but they're in order starting from my first post in 2001, up until my last post in 2006. Eventually I'll create a playlist somewhere so folks can check them out if they want, but below is the list in question:

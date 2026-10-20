@@ -13,6 +13,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 Sometime last week, I had a wild hair to look at Python again. So that's pretty much all I've been doing over the last week; trying to absorb as much info as possible to get a better understanding of it. In particular, object oriented programming topics. That seems to be an ongoing area of confusion for me. What do I plan on doing with Python, though? For now, scripting and simple apps/web apps. No real plans as of yet, but I can definitely see how it will be useful in the long run. 

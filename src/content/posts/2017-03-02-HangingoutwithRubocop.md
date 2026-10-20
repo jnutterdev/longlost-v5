@@ -11,6 +11,7 @@ tag:
 readTime: 3 min
 featured: false
 draft: false
+announced: true
 ---
 
 Trying my hand at [RuboCop](http://rubocop.readthedocs.io/en/latest/) tonight. It's a Ruby linter. It scans your ruby files to ensure that all of ruby's prime directives are met. That is, well, it can tell you if there's anything in your code that stands out or needs fixing. Pretty handy, especially for a beginner like myself. 

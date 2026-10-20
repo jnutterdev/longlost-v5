@@ -9,6 +9,7 @@ readTime: 1 min
 image: /images/ableton.jpg
 featured: false
 draft: false
+announced: true
 ---
 
 ### MAX FOR LIVE DEVICE

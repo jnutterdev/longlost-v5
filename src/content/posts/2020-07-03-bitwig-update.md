@@ -9,6 +9,7 @@ readTime: 1 min
 image: /images/bitwig.jpg
 featured: false
 draft: false
+announced: true
 ---
 
 ### Some cool new features from the latest version of Bitwig

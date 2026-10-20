@@ -10,6 +10,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 As you may or may not know, I'm in love with Linux. It's been a fascination of mine since I was in high school, which was the mid to late 90s. I've installed numerous distros, over and over again; on desktops, laptops, chromebooks, and virtual machines. Now, I'm by no means a master with Linux. There's still a lot that I need to learn. But I do feel like I know my fare share. So now my goal in between learning Python is to flesh out the areas I'm not to familiar with. 

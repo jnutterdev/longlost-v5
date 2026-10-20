@@ -8,6 +8,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 I first got into post-rock sometime between 1999 and 2000--I've been listening to the genre ever since. Post-rock is also a genre that I sort of stumbled on my own without the help or influence of anyone, and gradually grew into it more. 

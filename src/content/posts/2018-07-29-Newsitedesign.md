@@ -8,6 +8,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 This is the beginning of a new beginning.

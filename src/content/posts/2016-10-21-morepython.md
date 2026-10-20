@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 It's been awhile, but I'm currently working on a few tutorials for learning Flask. I've enjoyed working with Python so much lately that I thought it may be more fun to continue using Python for the web.

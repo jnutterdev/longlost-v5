@@ -28,6 +28,6 @@ There's even talks of a new Robocop tv series in the works, too! Anyone who know
 
 For movies, we've got **Hot Spot** ![](/images/HOTSPOT_IG_POSTER.jpg)which I think I'll borrow the wikipedia premise, “Set in a near future society ruled by sentient A.I., a private eye investigates a murder case only to discover a rebel group capable of undermining the digital overlord. As the detective's identity slowly unravels, his world enters a state of hypnotic meltdown.”
 
-\*\*Klara and the Sun\*\*![](/images/Klara_and_the_Sun_\(film\)_poster.jpg)this is the newest film by Taika Watiti and is based off of a book series by Japanese-British author, Kazuo Ishiguro. “In a dystopian future where technological advances in genetic engineering have divided humans into strict, isolated social classes, an obsolete companion android named Klara tries to bond with Josie, a sick girl for whom she was purchased.”
+**Klara and the Sun** ![](/images/Klara_and_the_Sun_\(film\)_poster.jpg)this is the newest film by Taika Watiti and is based off of a book series by Japanese-British author, Kazuo Ishiguro. “In a dystopian future where technological advances in genetic engineering have divided humans into strict, isolated social classes, an obsolete companion android named Klara tries to bond with Josie, a sick girl for whom she was purchased.”
 
 There's probably more that I'm forgetting, but I'll keep this short for now. Next post will cover the upcoming games and other media.

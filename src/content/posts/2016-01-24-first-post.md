@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 I started a new site using Jekyll. The plan is to write about topics that I'm currently learning on my own, find interesting, or something that I've created. I'm still working out the details, but in the meantime...

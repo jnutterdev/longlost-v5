@@ -11,6 +11,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 I've been thinking a lot more about what to do going forward with my career. Currently, my pursuits have been a bit, well I wouldn't really say "aimless", but just less focused than they could be. For example, I read a lot about my current work's departments and what they do; what tools they use; what they do day-in and day-out. When I read about something new, or I haven't had much experience with, I'll set out on my own to learn what it is and how to use it. This has been great exposure to a wide range of technologies for sure, but a vast array of these topics result in less retention of that knowledge. The knowledge I do retain, I get frustrated because I want to use it on a daily basis and I'm not quite sure how to approach that at my job--not to mention, I have a 6month commitment to my current role. 

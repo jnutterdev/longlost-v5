@@ -10,6 +10,7 @@ tag:
 readTime: 3 min
 featured: false
 draft: false
+announced: true
 ---
 
 Learning, learning, learning. That's what I spend a lot of my free time on; anything and everything that strikes me. The thing is that I get a lot more free time over the weekend to explore ideas, and dig into new things. Then Monday morning rolls around and it's back to work as usual. All the drama and mental exhaustion that goes into my work drains me through the week. It's an endless cycle. While I haven't mastered anything, I've amassed a good, wide, range of topics. Which has its advantages, so the next project or topic that I start on, I feel like I have a head start. It's good and it's bad, really. 

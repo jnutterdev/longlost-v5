@@ -13,6 +13,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 So I listen to the podcast [ShopTalk](http://shoptalkshow.com/) with Dave Rupert, and Chris Coyier, pretty much every day on my way to work. Last Friday, I was going back over some previous episodes that I missed, and landed on one where Dave mentioned switching to a Windows machine to try development on. I thought, "ya know, I've never tried that either." So spent the better half of the weekend--probably more time than I should have; getting a laptop with Windows 10 installed on it. Let's just say, that was a lengthy process on its own. 

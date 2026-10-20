@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 <img class="mobileFix" src="{{ site.url }}/assets/flashback.png?size=200" align="left" style="margin: 3px 10px 2px 0;">

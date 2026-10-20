@@ -12,6 +12,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 A few months ago, I installed a headless Ubuntu server on an old laptop and installed Plex on it, too. Some time went by; out of sight, out of mind. Over the weekend, I was looking at the IP addresses on my network and realized that I still had Plex running on it. So I gave it a shot and copied a couple movies to the Plex folders. The movies were there, but why couldn't Plex see them? Then I recalled that file permissions were a pretty big deal. So I changed them all to the plex user, and BOOM. I was in business. Plex saw them all right away. But then I started running into this issue where it couldn't convert the files as it was running low on disk space. 

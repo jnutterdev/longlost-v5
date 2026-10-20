@@ -11,6 +11,7 @@ readTime: 1 min
 image: /images/PST00026.JPG
 featured: false
 draft: false
+announced: true
 ---
 
 Over the weekend, I finally updated the old blog so that I can post to social media sites. I use [Astro](https://astro.build) to build the site, and [Tina CMS](https://tina.io/) to manage all the media and posts. When I insert an image into the blog post itself, it will take that image and use it for open graph OR, it will generate an image as a card, and use that instead. The latter part was already built in, so I can't take credit for that but the social media images I can!

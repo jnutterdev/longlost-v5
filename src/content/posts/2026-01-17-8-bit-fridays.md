@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 Today was a pretty decent day; busy, but still a good day. Finally starting to get in the swing of getting my kids ready and dropped off for school on time. Fridays at work with my new team is also a good time. We actually get along and talk, share ideas with each other. I didn't get a ton of work done today, but at least we were able to build a better bond. It's nice. \

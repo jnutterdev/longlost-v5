@@ -12,6 +12,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 Preacher season 2 is back on, and I'm pretty stoked. Last season was surprisingly very good despite what some of the critics were saying; but then again, when do I ever listen to what critics say? Most of the movies that I like are rated around 6 stars on [IMDB](https://www.imdb.com)...not that that tells you a lot about the show--just saying.

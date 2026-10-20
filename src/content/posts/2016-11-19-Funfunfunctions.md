@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 Tonight I spent some more time with Python. I read about functions, creating modules, and how to install them locally. I still need to learn a bit more on those topics, so I didn't end up using them. But in the meantime, I tweaked the posts.py script so that it would insert the time and timezone along with the date in the date section of the front matter. The next step will be to create a module and setup file so that I can install this in future projects.

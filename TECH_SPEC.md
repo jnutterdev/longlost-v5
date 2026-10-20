@@ -161,7 +161,7 @@ Helpers (kebab-case, `src/lib/`):
 
 - **Images** are public paths (Tina's media manager writes to `public/images`), rendered with plain `<img>`, not `astro:assets`.
 - **Placeholders:** `public/images/placeholders/` (hero + sample photo entries `src/content/photos/placeholder-*.md`).
-- **Favicon:** `public/favicon.svg` (sienna "l" on ink). `public/favicon.ico` is still the old v4 icon and isn't linked; regenerate or delete it.
+- **Favicon:** `public/favicon.svg` (sienna "l" on ink), the only favicon. The old v4 `favicon.ico` was deleted.
 - **Share images:** `public/images/social_basecard.png` (default OG image) and `public/images/social_wordmark.png`, both 1200×630. Sources are SVGs in `design/social/` (not deployed). See the README for how to re-export them.
 - **Noise texture:** inline SVG data URI in CSS.
 - **Branch silhouette:** removed.
@@ -191,6 +191,18 @@ Deployed as a **static-assets-only Worker**, the same setup as `jnutterdev-v2` (
 4. Check the site on its `longlost-v5.<subdomain>.workers.dev` URL
 5. Move the domain: remove `longlostforgotten.com` from the v4 Pages project's Custom Domains, then add it under the v5 Worker's **Settings → Domains & Routes → Custom Domain**. Keep v4 around as a rollback
 
+## Announcing posts
+
+Ported from v4: `scripts/announce.mjs` + `scripts/announce.config.json`, run by `.github/workflows/announce.yml` after each successful Deploy on `main` (skipped when the push came from `github-actions[bot]`).
+
+- Looks at posts **added or modified** in the triggering commit. Skips `draft: true` and `announced: true`
+- Posts `title`, `excerpt`, and the post URL to Bluesky (link card, image thumb ≤ 1MB) and Mastodon (image attachment). Image falls back to `social_basecard.png`
+- Writes `blueskyUrl`, `mastodonUrl`, and `announced: true` back into the post's frontmatter and pushes a bot commit. `blueskyUrl` powers the comments on the post page
+- Frontmatter is parsed with the `yaml` package. v4 used a regex that left Tina's YAML escaping in place (`'Here''s'` came out as `Here''s`, which looks like a double quote)
+- Secrets: `BLUESKY_HANDLE`, `BLUESKY_APP_PASSWORD`, `MASTODON_INSTANCE`, `MASTODON_ACCESS_TOKEN`
+- All published posts are marked `announced: true` (2026-10-20). The 103 drafts (mostly 2001–2006 LiveJournal entries) aren't marked, so each one is announced when it's published
+- Don't run the script locally; it commits and pushes
+
 ## Scripts
 
 ```json
@@ -207,11 +219,11 @@ The v4 `tina.mjs` wrapper isn't needed; the Tina CLI works with the standard scr
 
 - The Archivist AI chat widget (dropped)
 - SSR / Workers / D1
-- OG image generation and the v4 announce script
+- OG image generation
 
 ## Decisions (2026-10-15)
 
-1. **v4 extras:** carry over `BlueskyComments.astro` only. No OG image generation and no announce script, so `satori`/`resvg` are dropped.
+1. **v4 extras:** carry over `BlueskyComments.astro` only. No OG image generation and no announce script, so `satori`/`resvg` are dropped. The announce script was brought back on 2026-10-20 (see [Announcing posts](#announcing-posts)).
 2. **Footer socials:** Bluesky only (plus RSS).
 3. **Icons:** inline the Font Awesome Free brand SVG (Bluesky) instead of installing the package.
 4. **Inner pages:** post, archive and gallery match the home page's style.
@@ -236,9 +248,10 @@ Where the first build differed from the original plan:
 - **Fixes:** mobile nav dropdown hidden behind content (z-index), about profile centered on mobile.
 - **Share images and favicon** redone in the new palette.
 - **Deploy target:** moved from Pages to Workers static assets, with a pnpm GitHub Actions workflow modeled on `jnutterdev-v2`.
+- **Announcing:** ported the v4 Bluesky/Mastodon announce workflow, with real YAML parsing to fix doubled apostrophes.
 
 ### Content issues from the v4 migration
 
 - ~~`Dread-and-Discomfort.md` broken image path~~: fixed (`/images/dread-and-discomfort.jpg`).
-- `stuff-to-get-excited-about.md` line 31: `\*\*Klara and the Sun\*\*` has escaped asterisks, so they render literally instead of bold, and the image and "this" run straight into it. Still needs a fix.
+- ~~`stuff-to-get-excited-about.md` escaped `\*\*Klara and the Sun\*\*`~~: fixed.
 - Only two posts are `featured: true`, so the wide featured card doesn't appear in the home page's latest 7.

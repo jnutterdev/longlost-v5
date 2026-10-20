@@ -13,6 +13,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 Cleaned up my website over the weekend. Overhauled the CSS, and included some media queries. There's probably a few odds and ends that I need to tweak, but it's mostly there. Also, I exported all of my old posts from my Wordpress blog, and converted them to Jekyll. That took some time to go through and remove bits that I don't want to keep, and update the tags. Then, I moved everything from withonlyamap.com to terribledevice.com. 

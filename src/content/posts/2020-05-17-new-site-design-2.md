@@ -9,6 +9,7 @@ readTime: 1 min
 image: /images/updates.png
 featured: false
 draft: false
+announced: true
 ---
 
 ### A new version of the blog with a slightly different format

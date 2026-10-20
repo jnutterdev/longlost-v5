@@ -11,6 +11,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 Within the past couple of months I've been working toward a new career change. I've decided that I want to pursue a career in operations; either as a system engineer or system admin. Both seem to play more toward my strong suits. The field I would like to work in would be Linux based, which is another passion of mine. I'd also get to incorporate my knowledge of different scripting languages I've learned. 

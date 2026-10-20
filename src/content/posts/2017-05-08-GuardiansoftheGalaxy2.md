@@ -10,6 +10,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 Just saw Guardians of the Galaxy 2 and it was pretty fantastic, although I must admit that it started off a little...flat. That is, the dialogue between everyone that happened during the opening scene when they were fighting the monster was a little forced, and even cardboard. I can't really place any examples of the dialogue, but I'm sure you know what I mean. 

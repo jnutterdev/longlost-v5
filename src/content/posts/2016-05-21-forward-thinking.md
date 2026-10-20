@@ -11,6 +11,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 It's been awhile. And the directions I've taken in the past couple of months are... kind of all of the map. That is, each week/weekend, I start digging into a new language, or overhaul a laptop with another Linux distro. This is all well and good, but not productive for the long run. 

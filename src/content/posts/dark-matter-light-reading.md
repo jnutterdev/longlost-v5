@@ -11,6 +11,7 @@ blueskyUrl: 'https://bsky.app/profile/longlostforgotten.com/post/3monjpisysw2m'
 mastodonUrl: 'https://mastodon.social/@longlostforgotten/116777189308185435'
 currentMusic: Valance Drakes - Not Taking This Gratitude For Granted
 currentMood: "sleepy \U0001F971"
+announced: true
 ---
 
 Lately I've been trying to disconnect from screens whenever I can. It's been great so far — I've mostly filled that downtime with reading.

@@ -9,6 +9,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 Today was one of those annoying days where you work hard on something. Spend hours. And then someone says one thing that nearly undoes it all. Maybe a little more dramatic sounding than it was, but it’s the principle of it all. In this case, I was working on a project but someone failed to mention one key thing that would have simplified everything. So I had to shift gears, putting me a little behind on things. Oh well.

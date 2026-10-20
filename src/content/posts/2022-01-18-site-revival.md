@@ -6,6 +6,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 Recently I decided to revive my old domain, withonlyamap.com. It's been a hobby domain for a while but fell to the wayside. Anyway, I had the idea to start using it again to share mostly music I enjoy. I may also write about photography, scientific topics, and general life updates. 

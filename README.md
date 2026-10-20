@@ -41,6 +41,7 @@ public/
   images/         post, photo, and share images (Tina media root)
   _headers, _redirects
 design/social/    SVG sources for the share images (not deployed)
+scripts/          announce.mjs: posts new posts to Bluesky/Mastodon (CI only)
 tina/             Tina schema (config.ts)
 ```
 
@@ -53,7 +54,8 @@ Post frontmatter worth knowing:
 - `featured: true`: wide card on the home grid
 - `image`: shows the post as an image card, and becomes its share image
 - `draft: true`: hidden everywhere
-- `blueskyUrl`: shows Bluesky replies as comments
+- `blueskyUrl`: shows Bluesky replies as comments (filled in automatically when the post is announced)
+- `announced`: set to `true` once a post has gone out to Bluesky/Mastodon
 - `currentMood` / `currentMusic`: shown at the end of the post
 
 ## Design system
@@ -97,6 +99,8 @@ Required GitHub secrets:
 | `TINA_TOKEN`            | Tina Cloud project settings (read/write token)          |
 | `CLOUDFLARE_API_TOKEN`  | Cloudflare → My Profile → API Tokens, "Edit Cloudflare Workers" template |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard sidebar                            |
+
+After a successful deploy, `.github/workflows/announce.yml` posts any new posts to Bluesky and Mastodon, then commits the `blueskyUrl`, `mastodonUrl`, and `announced` fields back. It needs four more secrets: `BLUESKY_HANDLE`, `BLUESKY_APP_PASSWORD`, `MASTODON_INSTANCE`, `MASTODON_ACCESS_TOKEN`. It skips drafts and anything marked `announced: true`. Every published post is already marked, so edits won't re-announce them. Unmarked drafts get announced when they're published. Don't run `scripts/announce.mjs` locally; it commits and pushes.
 
 To check the config locally without deploying: `pnpm build && pnpm dlx wrangler deploy --dry-run`.
 

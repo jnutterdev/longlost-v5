@@ -11,6 +11,7 @@ tag:
 readTime: 1 min
 featured: false
 draft: false
+announced: true
 ---
 
 So I woke up this morning thinking back to 2005. That's the year where I rediscovered web design. I was given a role in a small startup warehouse company in Norcross, GA as a "web admin". I'm pretty sure they had as much idea of what that role meant as I did; which was very little to none. Either way, I would spend most of my days learning HTML and CSS. I don't think I ever really finished a project, but hey, I was getting paid to learn!

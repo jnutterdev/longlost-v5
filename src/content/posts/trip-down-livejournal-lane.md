@@ -10,6 +10,7 @@ readTime: 1 min
 draft: false
 currentMusic: cable.percussion - tera
 currentMood: "Nostalgic \U0001F647‍♂️"
+announced: true
 ---
 
 Today I spent a good portion of the day getting this website setup some more. Over the years, I've used a few different monickers, like ohjn, longlost, terribledevice, and withonlyamap. Even though some of them have been repurposed, the earlier years were still felt like what longlostforgotten currently is: just my memory and telling of things that I've found, done, or seen.

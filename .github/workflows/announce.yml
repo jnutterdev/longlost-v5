@@ -1,5 +1,7 @@
 name: Announce
 
+# After a successful deploy, post new (non-draft, not-yet-announced) posts to Bluesky and Mastodon,
+# then commit the resulting blueskyUrl / mastodonUrl / announced fields back to main.
 on:
   workflow_run:
     workflows: [Deploy]
@@ -21,9 +23,16 @@ jobs:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '24'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
 
       - name: Post to Bluesky / Mastodon
         run: node scripts/announce.mjs

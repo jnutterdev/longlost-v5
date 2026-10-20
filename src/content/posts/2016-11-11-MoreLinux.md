@@ -9,6 +9,7 @@ tag:
 readTime: 2 min
 featured: false
 draft: false
+announced: true
 ---
 
 Just signed up for yet another Linux Academy membership. This will actually be the third time that I've paid for one, but I'm pretty set on learning as much as I can to prepare myself for the world of DevOps and System Adminstration. I've got a few courses planned out for starters, and then I'll continue to plan more out as I go along. But here's what I was thinking about starting with: 

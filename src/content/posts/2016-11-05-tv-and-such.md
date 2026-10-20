@@ -11,6 +11,7 @@ tag:
 readTime: 5 min
 featured: false
 draft: false
+announced: true
 ---
 
 The tag line of this blog is music.movies.dev. It occurred to me that I haven't posted anything about movies in quite awhile. To be honest, I haven't really seen a lot of movies in the last few months, but there are some that I plan on going back to re-watch and then write about while they're still fresh in my mind. 
