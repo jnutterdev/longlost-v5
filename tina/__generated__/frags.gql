@@ -12,10 +12,14 @@ fragment AboutParts on About {
   avatar
   avatarAlt
   name
-  handle
   location
   bio
   links {
+    __typename
+    label
+    url
+  }
+  websites {
     __typename
     label
     url

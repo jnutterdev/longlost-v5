@@ -148,14 +148,19 @@ type AboutLinks {
   url: String
 }
 
+type AboutWebsites {
+  label: String
+  url: String
+}
+
 type About implements Node & Document {
   avatar: String
   avatarAlt: String
   name: String!
-  handle: String
   location: String
   bio: String
   links: [AboutLinks]
+  websites: [AboutWebsites]
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -166,14 +171,19 @@ input AboutLinksFilter {
   url: StringFilter
 }
 
+input AboutWebsitesFilter {
+  label: StringFilter
+  url: StringFilter
+}
+
 input AboutFilter {
   avatar: ImageFilter
   avatarAlt: StringFilter
   name: StringFilter
-  handle: StringFilter
   location: StringFilter
   bio: StringFilter
   links: AboutLinksFilter
+  websites: AboutWebsitesFilter
 }
 
 type AboutConnectionEdges {
@@ -334,14 +344,19 @@ input AboutLinksMutation {
   url: String
 }
 
+input AboutWebsitesMutation {
+  label: String
+  url: String
+}
+
 input AboutMutation {
   avatar: String
   avatarAlt: String
   name: String
-  handle: String
   location: String
   bio: String
   links: [AboutLinksMutation]
+  websites: [AboutWebsitesMutation]
 }
 
 input PostsMutation {

@@ -60,12 +60,22 @@ var config_default = defineConfig({
           { name: "avatar", label: "Profile Image", type: "image" },
           { name: "avatarAlt", label: "Profile Image Alt Text", type: "string" },
           { name: "name", label: "Name", type: "string", required: true },
-          { name: "handle", label: "Handle", type: "string" },
           { name: "location", label: "Location", type: "string" },
           { name: "bio", label: "Bio", type: "string", ui: { component: "textarea" } },
           {
             name: "links",
             label: "Links",
+            type: "object",
+            list: true,
+            ui: { itemProps: (item) => ({ label: item.label }) },
+            fields: [
+              { name: "label", label: "Label", type: "string" },
+              { name: "url", label: "URL", type: "string" }
+            ]
+          },
+          {
+            name: "websites",
+            label: "Websites",
             type: "object",
             list: true,
             ui: { itemProps: (item) => ({ label: item.label }) },

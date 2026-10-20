@@ -21,10 +21,14 @@ export const AboutPartsFragmentDoc = gql`
   avatar
   avatarAlt
   name
-  handle
   location
   bio
   links {
+    __typename
+    label
+    url
+  }
+  websites {
     __typename
     label
     url
