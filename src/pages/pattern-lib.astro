@@ -1,0 +1,613 @@
+---
+// Pattern library: the site's tokens, type, ornaments, and real components fed with mock data.
+import Base from '../layouts/Base.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Hero from '../components/Hero.astro';
+import PostCard from '../components/PostCard.astro';
+import PostCardImage from '../components/PostCardImage.astro';
+import PhotoCard from '../components/PhotoCard.astro';
+import ArchiveList from '../components/ArchiveList.astro';
+import TagList from '../components/TagList.astro';
+import TagCloud from '../components/TagCloud.astro';
+import DuotoneImage from '../components/DuotoneImage.astro';
+import Fin from '../components/Fin.astro';
+import tokens from '../styles/tokens.css?raw';
+import type { Photo, Post } from '../lib/posts';
+import '../styles/prose.css';
+
+// Swatches come straight from tokens.css, so new colors show up automatically.
+const colorRoles: Record<string, string> = {
+  ink: 'Page background',
+  char: 'Card surface',
+  olive: 'Borders, rules, card shadow',
+  khaki: 'Muted text, dates, meta',
+  almond: 'Body text',
+  sienna: 'Accent: links, hovers, tags, ornaments',
+};
+const swatches = [...tokens.matchAll(/--color-([a-z]+):\s*(#[0-9a-fA-F]{3,8})/g)]
+  .map(([, name, hex]) => ({ name, hex: hex.toUpperCase(), role: colorRoles[name] ?? '' }));
+
+const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
+
+const placeholder = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="none"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#0d0d0d"/></linearGradient></defs><rect width="400" height="500" fill="url(#g)"/></svg>',
+)}`;
+
+const mockPost = (id: string, data: Partial<Post['data']> = {}): Post => ({
+  id,
+  collection: 'posts',
+  body: lorem,
+  data: {
+    title: 'Lorem ipsum dolor sit amet',
+    date: '2026-06-03T00:00:00.000Z',
+    tag: ['lorem', 'ipsum'],
+    featured: false,
+    draft: false,
+    ...data,
+  },
+}) as Post;
+
+const mockPhoto: Photo = {
+  id: 'pattern-lib-photo',
+  collection: 'photos',
+  body: '',
+  data: {
+    title: 'Lorem ipsum',
+    image: placeholder,
+    alt: '',
+    date: '2026-05-30T00:00:00.000Z',
+    tags: [],
+    draft: false,
+  },
+} as Photo;
+
+const standardPost = mockPost('pattern-lib-standard');
+const featuredPost = mockPost('pattern-lib-featured', { title: 'Featured: consectetur adipiscing elit', featured: true });
+const imagePost = mockPost('pattern-lib-image', { title: 'Sed do eiusmod tempor', image: placeholder, tag: ['dolor'] });
+const archivePosts = [
+  mockPost('pattern-lib-a1', { title: 'Ut enim ad minim veniam', date: '2026-06-28T00:00:00.000Z', tag: ['lorem', 'ipsum', 'dolor'] }),
+  mockPost('pattern-lib-a2', { title: 'Quis nostrud exercitation', date: '2026-01-15T00:00:00.000Z', tag: ['amet'] }),
+  mockPost('pattern-lib-a3', { title: 'Duis aute irure dolor', date: '2025-11-02T00:00:00.000Z', tag: ['ipsum', 'sit'] }),
+];
+
+const fonts = [
+  {
+    name: 'Syne',
+    variable: '--font-display',
+    weights: '400, 600, 700, 800',
+    samples: [
+      { label: 'Hero headline', spec: '700 · up to 3.75rem', class: 'ts-hero', text: 'Long lost and forgotten' },
+      { label: 'Post title', spec: '700 · 3.75rem desktop / 2.25rem mobile', class: 'ts-post-title', text: 'Lorem ipsum dolor' },
+      { label: 'Archive year', spec: '700 · 3rem · shadowed', class: 'ts-year', text: '2026' },
+      { label: 'Section heading', spec: '700 · 1.875rem · uppercase', class: 'ts-section', text: 'Latest Transmissions' },
+      { label: 'Card title', spec: '700 · 1.5rem', class: 'ts-card', text: 'Sed do eiusmod tempor' },
+      { label: 'Site logo', spec: '700 · 1.5rem · tight tracking', class: 'ts-logo', text: 'longlostforgotten' },
+      { label: 'Dates & meta', spec: '700 · 0.875rem · uppercase · widest', class: 'ts-meta', text: 'June 3, 2026 / 5 min' },
+    ],
+  },
+  {
+    name: 'Outfit',
+    variable: '--font-body',
+    weights: '300, 400, 500, 600',
+    samples: [
+      { label: 'Body prose', spec: '300 · 1.125rem · line-height 1.8', class: 'ts-prose', text: lorem },
+      { label: 'Excerpt', spec: '300 · 1rem · line-height 1.65', class: 'ts-excerpt', text: lorem },
+      { label: 'Nav links', spec: '500 · 0.875rem · uppercase', class: 'ts-nav', text: 'Archive · Gallery · About' },
+      { label: 'Tags & labels', spec: '500 · 0.6875rem · uppercase · widest', class: 'ts-label', text: '12 entries · Listening to' },
+      { label: 'Emphasis', spec: '600 · inline strong', class: 'ts-strong', text: 'Strong text in prose' },
+    ],
+  },
+];
+
+const ornaments = [
+  { shape: 'sun', name: 'Sunrise', usage: 'Footer horizon, every page' },
+  { shape: 'moon', name: 'Crescent moon', usage: 'End of each post' },
+  { shape: 'pines', name: 'Pines', usage: 'End of the about bio' },
+  { shape: 'ziggurat', name: 'Ziggurat', usage: 'Gallery photo pages, 404' },
+] as const;
+---
+
+<Base title="Pattern Library" description="Colors, type, ornaments, and components used across the site." noindex>
+  <SectionHeading title="Pattern Library" level="h1" />
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#colors">Colors</a>
+    <a href="#type">Type</a>
+    <a href="#ornaments">Ornaments</a>
+    <a href="#components">Components</a>
+    <a href="#images">Image shapes</a>
+  </nav>
+
+  <section id="colors" class="block">
+    <SectionHeading title="Colors" />
+    <ul class="swatches">
+      {swatches.map(({ name, hex, role }) => (
+        <li class="swatch">
+          <span class="chip" style={`background: var(--color-${name})`}></span>
+          <span class="swatch-name">{name}</span>
+          <code class="swatch-hex">{hex}</code>
+          <span class="swatch-role">{role}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="type" class="block">
+    <SectionHeading title="Type" />
+    {fonts.map(font => (
+      <div class="font">
+        <div class="font-head">
+          <span class:list={['font-aa', font.variable === '--font-display' ? 'display' : 'body']}>Aa</span>
+          <div>
+            <h3 class="font-name">{font.name}</h3>
+            <p class="font-detail"><code>var({font.variable})</code> · weights {font.weights}</p>
+          </div>
+        </div>
+        <dl class="specimens">
+          {font.samples.map(sample => (
+            <div class="specimen">
+              <dt>
+                <span class="specimen-label">{sample.label}</span>
+                <span class="specimen-spec">{sample.spec}</span>
+              </dt>
+              <dd class={sample.class}>{sample.text}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    ))}
+  </section>
+
+  <section id="ornaments" class="block">
+    <SectionHeading title="Ornaments" />
+    <div class="grid-2">
+      {ornaments.map(({ shape, name, usage }) => (
+        <div class="demo">
+          <p class="demo-label">{name} <span>{usage}</span></p>
+          <Fin shape={shape} />
+        </div>
+      ))}
+      <div class="demo">
+        <p class="demo-label">Heading rule <span>Section headings</span></p>
+        <SectionHeading title="Lorem ipsum" />
+      </div>
+      <div class="demo">
+        <p class="demo-label">Inset frame <span><code>.punk-card--framed</code>, hover for sienna</span></p>
+        <div class="punk-card punk-card--framed frame-demo"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="components" class="block">
+    <SectionHeading title="Components" />
+
+    <p class="demo-label">Hero <span>Home page: sunburst, inset frame, arched image</span></p>
+    <Hero tagline="Lorem ipsum" headline="Dolor sit amet" description={lorem} image={placeholder} />
+
+    <div class="cards">
+      <div class="wide">
+        <p class="demo-label">Featured post card <span>Spans two columns on the home grid</span></p>
+        <PostCard post={featuredPost} featured />
+      </div>
+      <div>
+        <p class="demo-label">Image post card <span>Posts with an image</span></p>
+        <PostCardImage post={imagePost} />
+      </div>
+      <div>
+        <p class="demo-label">Standard post card</p>
+        <PostCard post={standardPost} />
+      </div>
+      <div>
+        <p class="demo-label">Photo card <span>Gallery grid</span></p>
+        <PhotoCard photo={mockPhoto} />
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="demo-label">Archive list <span>Hover a row for the diamond</span></p>
+      <ArchiveList posts={archivePosts} />
+    </div>
+
+    <div class="grid-2">
+      <div class="demo">
+        <p class="demo-label">Tag list <span>Cards, posts, archive rows</span></p>
+        <TagList tags={['lorem', 'ipsum', 'dolor sit']} />
+      </div>
+      <div class="demo">
+        <p class="demo-label">Tag cloud <span>Archive filter</span></p>
+        <TagCloud tags={['lorem', 'ipsum', 'dolor', 'amet']} active="ipsum" />
+      </div>
+    </div>
+
+    <div class="demo">
+      <p class="demo-label">Prose <span>Post and photo body text</span></p>
+      <div class="prose">
+        <p>{lorem} <a href="#components">An inline link</a> and <strong>strong text</strong>, plus some <code>inline code</code>.</p>
+        <h2>Prose heading two</h2>
+        <blockquote>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</blockquote>
+        <ul>
+          <li>Excepteur sint occaecat</li>
+          <li>Cupidatat non proident</li>
+        </ul>
+        <h3>Prose heading three</h3>
+        <pre><code>const lorem = 'ipsum';</code></pre>
+        <hr />
+        <p>{lorem}</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="images" class="block">
+    <SectionHeading title="Image Shapes" />
+    <div class="shapes">
+      <div>
+        <p class="demo-label">Wide 16:9 <span>Post feature image</span></p>
+        <div class="punk-card"><DuotoneImage src={placeholder} alt="" class="shape-wide" /></div>
+      </div>
+      <div>
+        <p class="demo-label">Arch <span>Hero image</span></p>
+        <DuotoneImage src={placeholder} alt="" class="shape-arch" />
+      </div>
+      <div>
+        <p class="demo-label">Portrait 4:5 <span>Gallery cards</span></p>
+        <DuotoneImage src={placeholder} alt="" class="shape-portrait" />
+      </div>
+      <div>
+        <p class="demo-label">Arched avatar <span>About page</span></p>
+        <div class="avatar-arch"><img src={placeholder} alt="" /></div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
+    margin-top: calc(var(--space-lg) * -1);
+  }
+
+  .toc a {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-khaki);
+    transition: color var(--ease);
+  }
+
+  .toc a:hover {
+    color: var(--color-accent);
+  }
+
+  .block {
+    margin-top: var(--space-3xl);
+    scroll-margin-top: var(--space-lg);
+  }
+
+  .demo-label {
+    margin: 0 0 var(--space-sm);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .demo-label span {
+    margin-left: var(--space-xs);
+    color: var(--color-khaki);
+  }
+
+  .demo {
+    margin-top: var(--space-2xl);
+  }
+
+  .demo :global(.fin) {
+    margin-top: var(--space-sm);
+  }
+
+  .demo :global(.section-heading) {
+    margin-bottom: 0;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 var(--space-2xl);
+  }
+
+  /* Colors */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .chip {
+    height: 6rem;
+    margin-bottom: var(--space-xs);
+    border: var(--border-card);
+    box-shadow: var(--shadow-offset);
+  }
+
+  .swatch-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: capitalize;
+    color: var(--color-text);
+  }
+
+  .swatch-hex {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+  }
+
+  .swatch-role {
+    font-size: var(--text-sm);
+    color: var(--color-khaki);
+  }
+
+  /* Type */
+  .font + .font {
+    margin-top: var(--space-3xl);
+  }
+
+  .font-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .font-aa {
+    font-size: var(--text-5xl);
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  .font-aa.display {
+    font-family: var(--font-display);
+    font-weight: 800;
+  }
+
+  .font-aa.body {
+    font-family: var(--font-body);
+    font-weight: 300;
+  }
+
+  .font-name {
+    font-size: var(--text-2xl);
+    color: var(--color-text);
+  }
+
+  .font-detail {
+    margin: var(--space-2xs) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-khaki);
+  }
+
+  .specimens {
+    margin: 0;
+  }
+
+  .specimen {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+    padding-block: var(--space-md);
+    border-bottom: 1px solid rgb(118 113 81 / 0.35);
+  }
+
+  .specimen dt {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .specimen-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .specimen-spec {
+    font-size: var(--text-sm);
+    color: var(--color-khaki);
+  }
+
+  .specimen dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .ts-hero,
+  .ts-post-title,
+  .ts-year,
+  .ts-section,
+  .ts-card,
+  .ts-logo,
+  .ts-meta {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .ts-hero {
+    font-size: var(--text-5xl);
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .ts-post-title {
+    font-size: var(--text-3xl);
+    line-height: 1.05;
+    color: var(--color-text);
+  }
+
+  .ts-year {
+    font-size: var(--text-4xl);
+    line-height: 1;
+    color: var(--color-khaki);
+    text-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
+  }
+
+  .ts-section {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .ts-card {
+    font-size: var(--text-xl);
+    line-height: 1.15;
+    color: var(--color-text);
+  }
+
+  .ts-logo {
+    font-size: var(--text-xl);
+    letter-spacing: -0.025em;
+    color: var(--color-text);
+  }
+
+  .ts-meta {
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .ts-prose {
+    font-size: var(--text-lg);
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+  }
+
+  .ts-excerpt {
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .ts-nav {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-khaki);
+  }
+
+  .ts-label {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-khaki);
+  }
+
+  .ts-strong {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  /* Ornaments */
+  .frame-demo {
+    height: 8rem;
+  }
+
+  /* Components */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl) var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+
+  .cards > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cards > div > :global(:last-child) {
+    flex-grow: 1;
+  }
+
+  /* Image shapes */
+  .shapes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl) var(--space-xl);
+  }
+
+  .shapes :global(.shape-wide) {
+    aspect-ratio: 16 / 9;
+  }
+
+  .shapes :global(.shape-arch) {
+    min-height: 18rem;
+    border-radius: 999px 999px 0 0;
+  }
+
+  .shapes :global(.shape-portrait) {
+    aspect-ratio: 4 / 5;
+    border: var(--border-card);
+  }
+
+  .avatar-arch {
+    max-width: 16rem;
+    overflow: hidden;
+    border: var(--border-card);
+    border-radius: 999px 999px 0 0;
+    box-shadow: var(--shadow-offset);
+  }
+
+  .avatar-arch img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: grayscale(100%);
+  }
+
+  @media (min-width: 48rem) {
+    .grid-2,
+    .cards,
+    .shapes {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .specimen {
+      grid-template-columns: 14rem 1fr;
+      align-items: baseline;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards .wide {
+      grid-column: span 2;
+    }
+
+    .ts-post-title {
+      font-size: var(--text-5xl);
+    }
+  }
+</style>

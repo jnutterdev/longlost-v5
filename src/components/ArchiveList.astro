@@ -51,43 +51,72 @@ const years = groupByYear(posts);
     align-items: baseline;
     gap: 0.75rem;
     font-size: var(--text-3xl);
-    color: var(--color-slate);
-    text-shadow: 3px 3px 0 var(--color-cadetblue);
+    color: var(--color-khaki);
+    text-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
     line-height: 1;
   }
 
   .count {
+    text-shadow: none;
     font-family: var(--font-body);
     font-weight: 500;
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-khaki);
   }
 
   .entries {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 2px solid var(--color-cadetblue);
+  }
+
+  /* Double-line rule, matching the section headings. */
+  .entries::before {
+    content: '';
+    display: block;
+    height: 5px;
+    border-block: 1px solid var(--color-olive);
   }
 
   .entry {
+    position: relative;
     display: grid;
     grid-template-columns: 4.5rem 1fr;
     gap: var(--space-2xs) var(--space-sm);
     align-items: baseline;
     padding: var(--space-sm) var(--space-sm) var(--space-sm) 0;
-    border-bottom: 1px solid var(--color-cadetblue);
+    border-bottom: 1px solid rgb(118 113 81 / 0.35);
     border-left: 2px solid transparent;
     transition: border-color var(--ease), background-color var(--ease), padding var(--ease);
   }
 
+  /* Hover-only diamond, so the resting list stays quiet. */
+  .entry::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--space-sm) + 0.6rem);
+    left: 0.75rem;
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent);
+    opacity: 0;
+    transform: rotate(45deg) scale(0);
+    transition: opacity var(--ease), transform var(--ease);
+  }
+
   .entry:hover,
   .entry:focus-within {
-    padding-left: var(--space-sm);
+    padding-left: var(--space-lg);
     border-left-color: var(--color-accent);
-    background: rgb(234 146 22 / 0.05);
+    background: rgb(171 87 44 / 0.05);
+  }
+
+  .entry:hover::before,
+  .entry:focus-within::before {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
   }
 
   .date {
@@ -96,7 +125,7 @@ const years = groupByYear(posts);
     font-size: var(--text-sm);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-khaki);
   }
 
   .title {

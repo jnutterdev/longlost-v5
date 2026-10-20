@@ -12,7 +12,7 @@ const { post, featured = false } = Astro.props;
 const href = `/posts/${post.id}/`;
 ---
 
-<article class:list={['punk-card', 'punk-card--branches', 'card', { featured }]}>
+<article class:list={['punk-card', 'punk-card--branches', 'punk-card--framed', 'card', { featured }]}>
   {featured && (
     <div class="corner" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -45,8 +45,8 @@ const href = `/posts/${post.id}/`;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-cadetblue);
-    color: var(--color-hightide);
+    background: var(--color-olive);
+    color: var(--color-ink);
     transition: background-color var(--ease);
   }
 
@@ -63,7 +63,7 @@ const href = `/posts/${post.id}/`;
     bottom: 0;
     width: 100%;
     height: 4px;
-    background: var(--color-cadetblue);
+    background: var(--color-olive);
     transition: background-color var(--ease);
   }
 
@@ -87,7 +87,7 @@ const href = `/posts/${post.id}/`;
     font-size: var(--text-sm);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-khaki);
   }
 
   .title {

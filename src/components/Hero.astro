@@ -15,7 +15,8 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
 <section class="hero">
   {image && <DuotoneImage src={image} alt={imageAlt} loading="eager" class="hero-image" />}
 
-  <div class="punk-card punk-card--branches intro">
+  <div class="punk-card punk-card--branches punk-card--framed intro">
+    <div class="sunburst" aria-hidden="true"></div>
     <div class="labels">
       <span class="badge">Welcome</span>
       {tagline && <span class="tagline">{tagline}</span>}
@@ -34,8 +35,23 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
     margin-block: var(--space-lg) var(--space-3xl);
   }
 
+  /* Deco arch: oversized radii collapse to a half-circle top at any width. */
   .hero :global(.hero-image) {
     min-height: 18rem;
+    border-radius: 999px 999px 0 0;
+  }
+
+  /* Rising sun: rays, a solid sun, and one thin halo, all anchored bottom-center. */
+  .sunburst {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 100%, rgb(171 87 44 / 0.35) 0 4rem, transparent calc(4rem + 1px)),
+      radial-gradient(circle at 50% 100%, transparent 5.5rem, rgb(171 87 44 / 0.4) 5.5rem calc(5.5rem + 2px), transparent calc(5.5rem + 2px)),
+      repeating-conic-gradient(from -90deg at 50% 100%, rgb(171 87 44 / 0.2) 0deg 1.5deg, transparent 1.5deg 9deg);
+    mask-image: radial-gradient(circle at 50% 100%, #000 20%, transparent 75%);
   }
 
   .intro {
@@ -60,7 +76,7 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
     font-weight: 700;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-hightide);
+    color: var(--color-ink);
     background: var(--color-accent);
   }
 
@@ -68,7 +84,7 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
     font-size: 0.75rem;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-khaki);
   }
 
   .headline {
@@ -95,7 +111,7 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-hightide);
+    color: var(--color-ink);
     background: var(--color-accent);
     border: 2px solid transparent;
     transition: background-color var(--ease), border-color var(--ease);

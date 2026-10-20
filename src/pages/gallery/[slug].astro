@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import TagList from '../../components/TagList.astro';
+import Fin from '../../components/Fin.astro';
 import { formatLongDate } from '../../lib/format-date';
 import { getPublishedPhotos, type Photo } from '../../lib/posts';
 import '../../styles/prose.css';
@@ -45,6 +46,8 @@ const { title, image, alt, date, location, tags } = photo.data;
       </div>
       <TagList tags={tags} linked={false} />
 
+      <Fin shape="ziggurat" />
+
       <nav class="pager" aria-label="More photos">
         {newer && <a href={`/gallery/${newer.id}/`}>&larr; Newer</a>}
         {older && <a href={`/gallery/${older.id}/`}>Older &rarr;</a>}
@@ -62,7 +65,7 @@ const { title, image, alt, date, location, tags } = photo.data;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-slate);
+    color: var(--color-khaki);
     transition: color var(--ease);
   }
 
@@ -80,7 +83,7 @@ const { title, image, alt, date, location, tags } = photo.data;
     margin: 0;
     border: var(--border-card);
     box-shadow: var(--shadow-offset);
-    background: var(--color-hightide);
+    background: var(--color-ink);
   }
 
   .frame img {
@@ -103,7 +106,7 @@ const { title, image, alt, date, location, tags } = photo.data;
   }
 
   .sep {
-    color: var(--color-cadetblue);
+    color: var(--color-olive);
   }
 
   .title {
@@ -122,9 +125,7 @@ const { title, image, alt, date, location, tags } = photo.data;
     display: flex;
     justify-content: space-between;
     gap: var(--space-sm);
-    margin-top: var(--space-2xl);
     padding-top: var(--space-md);
-    border-top: 2px solid var(--color-cadetblue);
   }
 
   .pager a {
@@ -134,7 +135,7 @@ const { title, image, alt, date, location, tags } = photo.data;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-slate);
+    color: var(--color-khaki);
     transition: color var(--ease);
   }
 

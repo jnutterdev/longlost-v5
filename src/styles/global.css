@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: var(--color-hightide);
+  background-color: var(--color-ink);
   color: var(--color-text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -41,7 +41,7 @@ img {
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-hightide);
+  color: var(--color-ink);
 }
 
 :focus-visible {
@@ -78,7 +78,7 @@ img {
 }
 
 .halftone {
-  background-image: radial-gradient(var(--color-slate) 1px, transparent 1px);
+  background-image: radial-gradient(var(--color-khaki) 1px, transparent 1px);
   background-size: 8px 8px;
   opacity: 0.2;
 }
@@ -88,7 +88,7 @@ img {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  background-color: var(--color-hightide);
+  background-color: var(--color-char);
   border: var(--border-card);
   box-shadow: var(--shadow-offset);
   transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
@@ -108,6 +108,28 @@ img {
   transform: var(--lift);
   box-shadow: var(--shadow-offset-hover);
   border-color: var(--color-accent);
+}
+
+/* Deco inset frame: a thin inner line with small square blocks at each corner. */
+.punk-card--framed::after {
+  --frame-color: var(--color-olive);
+  content: '';
+  position: absolute;
+  inset: 6px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid var(--frame-color);
+  background:
+    linear-gradient(var(--frame-color), var(--frame-color)) top left / 5px 5px no-repeat border-box,
+    linear-gradient(var(--frame-color), var(--frame-color)) top right / 5px 5px no-repeat border-box,
+    linear-gradient(var(--frame-color), var(--frame-color)) bottom left / 5px 5px no-repeat border-box,
+    linear-gradient(var(--frame-color), var(--frame-color)) bottom right / 5px 5px no-repeat border-box;
+  transition: border-color var(--ease);
+}
+
+.punk-card--framed:hover::after,
+.punk-card--framed:focus-within::after {
+  --frame-color: var(--color-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {

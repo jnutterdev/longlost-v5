@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import Fin from '../components/Fin.astro';
 import about from '../content/about.json';
 
 const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.trim());
@@ -21,7 +22,7 @@ const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.tri
       <p class="location">{about.location}</p>
     </aside>
 
-    <div class="punk-card punk-card--branches bio">
+    <div class="punk-card punk-card--branches punk-card--framed bio">
       {bioParagraphs.map(paragraph => <p>{paragraph}</p>)}
 
       {about.links.length > 0 && (
@@ -31,6 +32,8 @@ const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.tri
           ))}
         </ul>
       )}
+
+      <Fin shape="pines" />
     </div>
   </div>
 </Base>
@@ -45,7 +48,9 @@ const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.tri
   .avatar-frame {
     max-width: 16rem;
     margin-bottom: var(--space-md);
+    overflow: hidden;
     border: var(--border-card);
+    border-radius: 999px 999px 0 0;
     box-shadow: var(--shadow-offset);
   }
 
@@ -72,7 +77,7 @@ const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.tri
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-khaki);
   }
 
   .bio {
@@ -86,7 +91,13 @@ const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.tri
   .bio:hover {
     transform: none;
     box-shadow: var(--shadow-offset);
-    border-color: var(--color-cadetblue);
+    border-color: var(--color-olive);
+  }
+
+  /* The bio doesn't react to hover, so keep its frame olive too. */
+  .bio:hover::after,
+  .bio:focus-within::after {
+    --frame-color: var(--color-olive);
   }
 
   .bio p {
@@ -111,13 +122,13 @@ const bioParagraphs = about.bio.split(/\n\n+/).filter(paragraph => paragraph.tri
     text-transform: uppercase;
     text-decoration: none;
     color: var(--color-text);
-    border: 1px solid var(--color-slate);
+    border: 1px solid var(--color-khaki);
     transition: background-color var(--ease), color var(--ease), border-color var(--ease);
   }
 
   .links a:hover {
     background: var(--color-accent);
-    color: var(--color-hightide);
+    color: var(--color-ink);
     border-color: var(--color-accent);
   }
 

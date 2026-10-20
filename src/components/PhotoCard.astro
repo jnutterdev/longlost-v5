@@ -10,7 +10,7 @@ interface Props {
 const { photo } = Astro.props;
 ---
 
-<a class="punk-card card" href={`/gallery/${photo.id}/`}>
+<a class="punk-card punk-card--framed card" href={`/gallery/${photo.id}/`}>
   <DuotoneImage src={photo.data.image} alt={photo.data.alt} class="media" />
   <div class="caption">
     <span class="title">{photo.data.title}</span>
@@ -24,6 +24,11 @@ const { photo } = Astro.props;
     flex-direction: column;
     height: 100%;
     text-decoration: none;
+  }
+
+  /* Lift the inset frame above the photo so it reads like a mat. */
+  .card::after {
+    z-index: 2;
   }
 
   .card :global(.media) {
@@ -51,7 +56,7 @@ const { photo } = Astro.props;
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-khaki);
   }
 
   .card:hover .title,

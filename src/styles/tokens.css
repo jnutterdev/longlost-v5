@@ -1,13 +1,14 @@
 :root {
-  --color-hightide: #313841;
-  --color-cadetblue: #3A4750;
-  --color-slate: #8A96A3;
-  --color-pebble: #EEEEEE;
-  --color-yam: #EA9216;
+  --color-ink: #1a1a1a;
+  --color-char: #262523;
+  --color-olive: #767151;
+  --color-khaki: #9A9478;
+  --color-almond: #EFE3D9;
+  --color-sienna: #AB572C;
 
-  --color-text: var(--color-pebble);
-  --color-text-muted: rgb(238 238 238 / 0.75);
-  --color-accent: var(--color-yam);
+  --color-text: var(--color-almond);
+  --color-text-muted: rgb(239 227 217 / 0.75);
+  --color-accent: var(--color-sienna);
 
   --font-display: 'Syne', sans-serif;
   --font-body: 'Outfit', sans-serif;
@@ -34,9 +35,9 @@
   --space-2xl: 3rem;
   --space-3xl: 5rem;
 
-  --border-card: 2px solid var(--color-cadetblue);
-  --shadow-offset: 6px 6px 0 var(--color-slate);
-  --shadow-offset-hover: 9px 9px 0 var(--color-yam);
+  --border-card: 2px solid var(--color-olive);
+  --shadow-offset: 6px 6px 0 var(--color-olive);
+  --shadow-offset-hover: 9px 9px 0 var(--color-sienna);
   --lift: translate(-3px, -3px);
 
   --content-max: 72rem;

@@ -28,10 +28,33 @@ const { title, level: Heading = 'h2' } = Astro.props;
     color: var(--color-text);
   }
 
+  /* Deco rule: a double line that ends in a sienna diamond. */
   .rule {
+    position: relative;
     flex-grow: 1;
-    height: 1px;
-    background: var(--color-cadetblue);
+    height: 0.75rem;
+  }
+
+  .rule::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 1rem;
+    height: 5px;
+    border-block: 1px solid var(--color-olive);
+    transform: translateY(-50%);
+  }
+
+  .rule::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    width: 7px;
+    height: 7px;
+    background: var(--color-sienna);
+    transform: translateY(-50%) rotate(45deg);
   }
 
   @media (min-width: 48rem) {

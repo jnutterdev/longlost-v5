@@ -1,9 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import Fin from '../components/Fin.astro';
 ---
 
 <Base title="Signal lost">
-  <section class="lost punk-card punk-card--branches">
+  <section class="lost punk-card punk-card--branches punk-card--framed">
+    <Fin shape="ziggurat" class="ruin" />
     <span class="code">404</span>
     <h1 class="title">signal lost.</h1>
     <p class="desc">whatever was here has been long lost and forgotten.</p>
@@ -16,6 +18,16 @@ import Base from '../layouts/Base.astro';
     max-width: 36rem;
     margin: var(--space-3xl) auto;
     padding: var(--space-2xl);
+  }
+
+  /* A lost ruin on the horizon, above the error code. */
+  .lost :global(.ruin) {
+    margin: 0 0 var(--space-lg);
+  }
+
+  .lost :global(.ruin svg) {
+    width: 8rem;
+    height: 4rem;
   }
 
   .code {
