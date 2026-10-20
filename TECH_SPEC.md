@@ -16,7 +16,7 @@ The visual direction has since moved on from the mockup. See [Design Refresh](#d
 | Fonts      | Bunny Fonts — Syne (400/600/700/800), Outfit (300/400/500/600) |
 | Icons      | Font Awesome Free Bluesky SVG, inlined                        |
 | JS         | Vanilla `<script>` only (mobile nav, parallax, Bluesky comments). No React islands |
-| Hosting    | Cloudflare Pages                                              |
+| Hosting    | Cloudflare Workers (static assets), deployed by GitHub Actions |
 | Packages   | pnpm, Node 24 LTS                                             |
 
 No Tailwind. The mockup's Tailwind classes were rewritten as scoped component styles.
@@ -176,14 +176,20 @@ Helpers (kebab-case, `src/lib/`):
 
 ## Cloudflare
 
-- `public/_headers` and `public/_redirects` carried over from v4 (`/admin` redirect, security headers, `noindex` on `/admin/*`)
-- Pages project `longlost-v5`, `wrangler.jsonc` with `pages_build_output_dir: "dist"`
-- **Deploy is not set up yet.** Plan, following `longlost-v4/DEPLOY_GUIDE.md`:
-  1. Add `.github/workflows/deploy.yml` using **pnpm** (v4's uses npm) and `--project-name=longlost-v5`
-  2. Add repo secrets: `TINA_CLIENT_ID`, `TINA_TOKEN`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
-  3. Point the Tina Cloud project at the `longlost-v5` repo (or create a new one)
-  4. `npx wrangler pages project create longlost-v5` (production branch `main`)
-  5. Verify on `longlost-v5.pages.dev`, then move `longlostforgotten.com` from the v4 project's Custom Domains to v5. Keep v4 around as a rollback
+Deployed as a **static-assets-only Worker**, the same setup as `jnutterdev-v2` (v4 used Pages).
+
+- `wrangler.jsonc`: Worker `longlost-v5`, `assets.directory: "./dist"`, `not_found_handling: "404-page"` so unknown routes get `dist/404.html` with a 404 status (Workers doesn't infer this the way Pages did). No `main`, no Worker script
+- `public/_headers` and `public/_redirects` carried over from v4 (`/admin` redirect, security headers, `noindex` on `/admin/*`); Workers static assets honors both
+- `.github/workflows/deploy.yml`: on push to `main`: pnpm install → `pnpm run tina:build` (with `NODE_OPTIONS=--max-old-space-size=4096` for the Tina build) → `pnpm dlx wrangler deploy`. Cloudflare doesn't build anything itself
+- `pnpm dlx wrangler deploy --dry-run` validates the config locally without a Cloudflare login
+
+**First deploy checklist (not done yet):**
+
+1. Add repo secrets: `TINA_CLIENT_ID`, `TINA_TOKEN`, `CLOUDFLARE_API_TOKEN` ("Edit Cloudflare Workers" template), `CLOUDFLARE_ACCOUNT_ID`
+2. Point the Tina Cloud project at the `longlost-v5` repo (or create a new one; the client ID and token then change)
+3. Push to `main`. The first deploy creates the Worker; no `project create` step is needed
+4. Check the site on its `longlost-v5.<subdomain>.workers.dev` URL
+5. Move the domain: remove `longlostforgotten.com` from the v4 Pages project's Custom Domains, then add it under the v5 Worker's **Settings → Domains & Routes → Custom Domain**. Keep v4 around as a rollback
 
 ## Scripts
 
@@ -209,7 +215,7 @@ The v4 `tina.mjs` wrapper isn't needed; the Tina CLI works with the standard scr
 2. **Footer socials:** Bluesky only (plus RSS).
 3. **Icons:** inline the Font Awesome Free brand SVG (Bluesky) instead of installing the package.
 4. **Inner pages:** post, archive and gallery match the home page's style.
-5. **Deploy:** a new Cloudflare Pages project (`longlost-v5`).
+5. **Deploy:** a new Cloudflare Pages project (`longlost-v5`). Superseded 2026-10-20: switched to a Workers static-assets deploy to match `jnutterdev-v2`.
 6. **RSS:** yes, `/rss.xml` via `@astrojs/rss`.
 
 ## Build Notes (2026-10-15)
@@ -229,6 +235,7 @@ Where the first build differed from the original plan:
 - **Pattern library:** added `/pattern-lib` and a `noindex` prop on `Base.astro`.
 - **Fixes:** mobile nav dropdown hidden behind content (z-index), about profile centered on mobile.
 - **Share images and favicon** redone in the new palette.
+- **Deploy target:** moved from Pages to Workers static assets, with a pnpm GitHub Actions workflow modeled on `jnutterdev-v2`.
 
 ### Content issues from the v4 migration
 

@@ -2,7 +2,7 @@
 
 A place for ramblings, musings, fragmented thoughts, and other odds and ends. Writing since 2002.
 
-Static [Astro](https://astro.build) site with [TinaCMS](https://tina.io) for editing, hosted on Cloudflare Pages. See [`TECH_SPEC.md`](TECH_SPEC.md) for architecture, design tokens, and decisions.
+Static [Astro](https://astro.build) site with [TinaCMS](https://tina.io) for editing, hosted on Cloudflare Workers. See [`TECH_SPEC.md`](TECH_SPEC.md) for architecture, design tokens, and decisions.
 
 ## Getting started
 
@@ -87,4 +87,17 @@ Colors live in `src/styles/tokens.css`; the pattern library reads swatches strai
 
 ## Deploying
 
-Cloudflare Pages project `longlost-v5`, deployed by GitHub Actions on push to `main`. **The workflow isn't set up yet.** The checklist, including moving the domain over from v4, is in [`TECH_SPEC.md`](TECH_SPEC.md#cloudflare).
+Every push to `main` deploys automatically. GitHub Actions (`.github/workflows/deploy.yml`) builds the site with Tina, then uploads `dist/` to the `longlost-v5` Cloudflare Worker with `wrangler deploy`. Cloudflare doesn't build anything itself. It's the same setup as jnutterdev-v2.
+
+Required GitHub secrets:
+
+| Secret                  | Where to get it                                         |
+| ----------------------- | ------------------------------------------------------- |
+| `TINA_CLIENT_ID`        | Tina Cloud project settings                             |
+| `TINA_TOKEN`            | Tina Cloud project settings (read/write token)          |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare → My Profile → API Tokens, "Edit Cloudflare Workers" template |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard sidebar                            |
+
+To check the config locally without deploying: `pnpm build && pnpm dlx wrangler deploy --dry-run`.
+
+**Not live yet.** The first-deploy checklist, including moving the domain over from v4, is in [`TECH_SPEC.md`](TECH_SPEC.md#cloudflare).
