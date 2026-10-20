@@ -142,6 +142,11 @@ var config_default = defineConfig({
             type: "boolean"
           },
           {
+            name: "announced",
+            label: "Announced",
+            type: "boolean"
+          },
+          {
             name: "blueskyUrl",
             label: "Bluesky URL",
             type: "string"

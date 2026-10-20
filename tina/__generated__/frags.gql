@@ -32,6 +32,7 @@ fragment PostsParts on Posts {
   image
   featured
   draft
+  announced
   blueskyUrl
   mastodonUrl
   currentMusic

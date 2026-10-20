@@ -42,6 +42,7 @@ export const PostsPartsFragmentDoc = gql`
   image
   featured
   draft
+  announced
   blueskyUrl
   mastodonUrl
   currentMusic
