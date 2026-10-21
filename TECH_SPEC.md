@@ -303,7 +303,7 @@ Left as-is: the `Fin` SVG mask (`#fff`/`#000`), the `#fff` caption text and the 
 - **Mobile (< 48rem):** the gear is hidden, and `ThemeControls` renders as the last item inside the hamburger dropdown, below a border rule.
 - One script handles all control instances. On change it sets the attributes, saves the choice, and syncs the checked state across both instances.
 - Accessibility: real `<fieldset>`/`<legend>` + radios, a visible focus ring, an `aria-label` on the gear, and the panel is reachable by keyboard.
-- Icons: a Font Awesome free gear/sliders icon, inlined as SVG to match the existing hamburger.
+- Icons: Font Awesome free `sliders`, inlined as SVG like the footer icons. The panel is pinned under the button with JS on `beforetoggle`, because popovers render in the top layer (CSS anchor positioning would replace this once support is broad).
 
 ### Pattern library
 
@@ -312,8 +312,8 @@ Left as-is: the `Fin` SVG mask (`#fff`/`#000`), the `#fff` caption text and the 
 
 ### Phases
 
-1. **Tokens:** rename every color usage to role tokens, add `themes.css` with Rust + Dusk dark, and keep Rust as the default. The site should look exactly like `main` with Rust, and exactly like the current branch with Dusk.
-2. **Switcher:** the inline head script, `ThemeControls`, the desktop popover, and the mobile menu placement.
+1. ✅ **Tokens:** rename every color usage to role tokens, add `themes.css` with Rust + Dusk dark, and keep Rust as the default. The site should look exactly like `main` with Rust, and exactly like the current branch with Dusk.
+2. ✅ **Switcher:** the inline head script, `ThemeControls`, the desktop popover, and the mobile menu placement.
 3. **Light mode:** design light values for both palettes, then check contrast (body text ≥ 4.5:1, meta ≥ 4.5:1, accent fills/large text ≥ 3:1). Review the duotone tint, halftone dots, noise overlay, and blobs, which may need lower opacity or a separate blend mode on light backgrounds.
 
 ### Open questions

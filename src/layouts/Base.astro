@@ -33,6 +33,24 @@ const ogImage = new URL(image, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Mirrors applyTheme in src/lib/theme.ts; inline so the theme is set before first paint. -->
+    <script is:inline>
+      (() => {
+        const read = key => {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        };
+        const palette = read('llf-palette');
+        const mode = read('llf-mode');
+        const prefersLight = matchMedia('(prefers-color-scheme: light)').matches;
+        const isLight = mode === 'light' || (mode !== 'dark' && prefersLight);
+        document.documentElement.dataset.palette = palette === 'dusk' ? 'dusk' : 'rust';
+        document.documentElement.dataset.mode = isLight ? 'light' : 'dark';
+      })();
+    </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />

@@ -1,0 +1,134 @@
+---
+import { MODES, PALETTES } from '../lib/theme';
+
+interface Props {
+  // Keeps radio group names unique when the controls render more than once.
+  idPrefix: string;
+}
+
+const { idPrefix } = Astro.props;
+---
+
+<div class="theme-controls">
+  <fieldset>
+    <legend>Palette</legend>
+    <div class="options">
+      {PALETTES.map(option => (
+        <label class="option">
+          <input class="sr-only" type="radio" name={`${idPrefix}-palette`} value={option.value} data-theme-setting="palette" />
+          <span class="chip">
+            <span class="swatch" data-palette={option.value} aria-hidden="true"></span>
+            {option.label}
+          </span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Mode</legend>
+    <div class="options">
+      {MODES.map(option => (
+        <label class="option">
+          <input class="sr-only" type="radio" name={`${idPrefix}-mode`} value={option.value} data-theme-setting="mode" />
+          <span class="chip">{option.label}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+</div>
+
+<script>
+  import { applyTheme, getMode, getPalette, onSystemModeChange, save, type ThemeSetting } from '../lib/theme';
+
+  const inputs = document.querySelectorAll<HTMLInputElement>('[data-theme-setting]');
+
+  const syncInputs = (): void => {
+    const current: Record<ThemeSetting, string> = { palette: getPalette(), mode: getMode() };
+    inputs.forEach(input => {
+      const setting = input.dataset.themeSetting as ThemeSetting;
+      input.checked = input.value === current[setting];
+    });
+  };
+
+  inputs.forEach(input => {
+    input.addEventListener('change', () => {
+      save(input.dataset.themeSetting as ThemeSetting, input.value);
+      applyTheme();
+      syncInputs();
+    });
+  });
+
+  onSystemModeChange(applyTheme);
+  syncInputs();
+</script>
+
+<style>
+  .theme-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  legend {
+    margin-bottom: var(--space-xs);
+    padding: 0;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--color-meta);
+  }
+
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .option {
+    cursor: pointer;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.375rem 0.75rem;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-text);
+    border: 1px solid var(--color-meta);
+    transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+  }
+
+  .option:hover .chip {
+    border-color: var(--color-accent);
+  }
+
+  .option input:checked + .chip {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .option input:focus-visible + .chip {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* data-palette on the swatch scopes that palette's tokens to it, so each preview shows its own colors. */
+  .swatch {
+    width: 0.875rem;
+    height: 0.875rem;
+    background: linear-gradient(135deg, var(--color-accent) 50%, var(--color-meta) 50%);
+    border: 1px solid var(--color-bg);
+  }
+</style>

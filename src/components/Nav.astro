@@ -1,4 +1,6 @@
 ---
+import ThemeControls from './ThemeControls.astro';
+
 interface NavItem {
   label: string;
   href: string;
@@ -32,19 +34,40 @@ const isActive = (href: string): boolean =>
     </svg>
   </button>
 
-  <ul id="nav-links" class="links" data-menu>
-    {items.map(item => (
-      <li>
-        <a
-          href={item.href}
-          class:list={['nav-link', { active: isActive(item.href) }]}
-          aria-current={isActive(item.href) ? 'page' : undefined}
-        >
-          {item.label}
-        </a>
+  <div class="nav-end">
+    <ul id="nav-links" class="links" data-menu>
+      {items.map(item => (
+        <li>
+          <a
+            href={item.href}
+            class:list={['nav-link', { active: isActive(item.href) }]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+      <li class="menu-settings">
+        <ThemeControls idPrefix="menu" />
       </li>
-    ))}
-  </ul>
+    </ul>
+
+    <button
+      class="settings-toggle"
+      type="button"
+      popovertarget="theme-panel"
+      aria-label="Display settings"
+      data-settings-toggle
+    >
+      <svg aria-hidden="true" viewBox="0 0 512 512" fill="currentColor">
+        <path d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="theme-panel" class="theme-panel" popover data-settings-panel>
+    <ThemeControls idPrefix="panel" />
+  </div>
 </nav>
 
 <script>
@@ -65,6 +88,18 @@ const isActive = (href: string): boolean =>
       setOpen(false);
       toggle?.focus();
     }
+  });
+
+  const settingsToggle = document.querySelector<HTMLButtonElement>('[data-settings-toggle]');
+  const settingsPanel = document.querySelector<HTMLElement>('[data-settings-panel]');
+  const PANEL_OFFSET = 12;
+
+  // Popovers render in the top layer, so pin the panel under the button in page coordinates.
+  settingsPanel?.addEventListener('beforetoggle', event => {
+    if ((event as ToggleEvent).newState !== 'open' || !settingsToggle) return;
+    const rect = settingsToggle.getBoundingClientRect();
+    settingsPanel.style.top = `${rect.bottom + window.scrollY + PANEL_OFFSET}px`;
+    settingsPanel.style.right = `${document.documentElement.clientWidth - rect.right}px`;
   });
 </script>
 
@@ -106,6 +141,51 @@ const isActive = (href: string): boolean =>
 
   .menu-toggle:hover {
     color: var(--color-accent);
+  }
+
+  .nav-end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .settings-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: var(--space-2xs);
+    background: none;
+    border: none;
+    color: var(--color-meta);
+    cursor: pointer;
+    transition: color var(--ease);
+  }
+
+  .settings-toggle svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .settings-toggle:hover {
+    color: var(--color-accent);
+  }
+
+  .theme-panel {
+    position: absolute;
+    inset: auto;
+    margin: 0;
+    padding: var(--space-md);
+    min-width: 15rem;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: var(--border-card);
+    box-shadow: var(--shadow-offset);
+  }
+
+  .menu-settings {
+    display: none;
   }
 
   .links {
@@ -184,6 +264,21 @@ const isActive = (href: string): boolean =>
 
     .nav-link::after {
       display: none;
+    }
+
+    /* The settings move into the dropdown, so the wrapper drops out of the flex row. */
+    .nav-end {
+      display: contents;
+    }
+
+    .settings-toggle,
+    .theme-panel {
+      display: none;
+    }
+
+    .menu-settings {
+      display: block;
+      padding: var(--space-sm) var(--space-md) var(--space-md);
     }
   }
 </style>

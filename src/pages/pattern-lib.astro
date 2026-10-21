@@ -11,6 +11,7 @@ import TagList from '../components/TagList.astro';
 import TagCloud from '../components/TagCloud.astro';
 import DuotoneImage from '../components/DuotoneImage.astro';
 import Fin from '../components/Fin.astro';
+import ThemeControls from '../components/ThemeControls.astro';
 import themes from '../styles/themes.css?raw';
 import type { Photo, Post } from '../lib/posts';
 import '../styles/prose.css';
@@ -198,7 +199,7 @@ const ornaments = [
         <SectionHeading title="Lorem ipsum" />
       </div>
       <div class="demo">
-        <p class="demo-label">Inset frame <span><code>.punk-card--framed</code>, hover for sienna</span></p>
+        <p class="demo-label">Inset frame <span><code>.punk-card--framed</code>, hover for the hot accent</span></p>
         <div class="punk-card punk-card--framed frame-demo"></div>
       </div>
     </div>
@@ -243,6 +244,11 @@ const ornaments = [
         <p class="demo-label">Tag cloud <span>Archive filter</span></p>
         <TagCloud tags={['lorem', 'ipsum', 'dolor', 'amet']} active="ipsum" />
       </div>
+    </div>
+
+    <div class="demo">
+      <p class="demo-label">Theme controls <span>Nav settings panel and mobile menu; these are live</span></p>
+      <ThemeControls idPrefix="pattern-lib" />
     </div>
 
     <div class="demo">
