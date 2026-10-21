@@ -42,10 +42,10 @@ const colorRoles: Record<string, string> = {
   'on-accent': 'Text on accent fills',
 };
 
-const palettes: Palette[] = [...themes.matchAll(/\[data-palette="(\w+)"\]\s*\{([^}]*)\}/g)]
-  .map(([, name, body]) => ({
-    name,
-    swatches: [...body.matchAll(/--color-([a-z-]+):\s*(#[0-9a-fA-F]{3,8});\s*\/\*\s*([a-z]+)\s*\*\//g)]
+const palettes: Palette[] = [...themes.matchAll(/\[data-palette="(\w+)"\](?:\[data-mode="(\w+)"\])?[^{]*\{([^}]*)\}/g)]
+  .map(([, palette, mode = 'dark', body]) => ({
+    name: `${palette} · ${mode}`,
+    swatches: [...body.matchAll(/--color-([a-z-]+):\s*(#[0-9a-fA-F]{3,8});\s*\/\*\s*([a-z][a-z ]*?)\s*\*\//g)]
       .map(([, token, hex, hue]) => ({ name: token, hex: hex.toUpperCase(), hue, role: colorRoles[token] ?? '' })),
   }));
 
@@ -499,7 +499,7 @@ const ornaments = [
     font-size: var(--text-4xl);
     line-height: 1;
     color: var(--color-meta);
-    text-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
+    text-shadow: var(--shadow-text);
   }
 
   .ts-section {

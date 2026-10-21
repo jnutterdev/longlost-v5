@@ -294,7 +294,7 @@ Left as-is: the `Fin` SVG mask (`#fff`/`#000`), the `#fff` caption text and the 
 - An inline `<script is:inline>` at the top of `<head>` in `Base.astro` reads localStorage, resolves `auto` with `matchMedia('(prefers-color-scheme: light)')`, and sets both attributes before first paint. That prevents the flash.
 - Stored keys are `llf-palette` (`rust`|`dusk`) and `llf-mode` (`auto`|`dark`|`light`). Every read and write is wrapped in `try/catch`, and the defaults are `rust` + `auto`.
 - In `auto`, a `matchMedia` change listener re-resolves the mode live.
-- `<meta name="color-scheme">` and `<meta name="theme-color">` are updated to match the mode, which fixes scrollbars and form controls.
+- `color-scheme` is set in CSS per mode (`:root` dark, `[data-mode="light"]` light), so scrollbars and form controls match. `theme-color` was dropped: both dark palettes share the same background, and setting it would mean another script on every page.
 
 ### Settings UI
 
@@ -314,9 +314,29 @@ Left as-is: the `Fin` SVG mask (`#fff`/`#000`), the `#fff` caption text and the 
 
 1. ✅ **Tokens:** rename every color usage to role tokens, add `themes.css` with Rust + Dusk dark, and keep Rust as the default. The site should look exactly like `main` with Rust, and exactly like the current branch with Dusk.
 2. ✅ **Switcher:** the inline head script, `ThemeControls`, the desktop popover, and the mobile menu placement.
-3. **Light mode:** design light values for both palettes, then check contrast (body text ≥ 4.5:1, meta ≥ 4.5:1, accent fills/large text ≥ 3:1). Review the duotone tint, halftone dots, noise overlay, and blobs, which may need lower opacity or a separate blend mode on light backgrounds.
+3. ✅ **Light mode:** design light values for both palettes, then check contrast (body text ≥ 4.5:1, meta ≥ 4.5:1, accent fills/large text ≥ 3:1). Review the duotone tint, halftone dots, noise overlay, and blobs, which may need lower opacity or a separate blend mode on light backgrounds.
+
+### Light values
+
+| Token                | Rust light | Dusk light |
+| -------------------- | ---------- | ---------- |
+| `--color-bg`         | `#EFE3D9` almond | `#ECE7E0` fog |
+| `--color-surface`    | `#F7F0E9` pale almond | `#F6F3EE` pale fog |
+| `--color-border`     | `#767151` olive | `#6B7F85` deep slate |
+| `--color-meta`       | `#5E5A40` deep olive | `#4A5D63` storm |
+| `--color-glow`       | `#767151` olive | `#8fa3a8` slate |
+| `--color-text`       | `#2B2926` char | `#3A3632` umber |
+| `--color-heading`    | `#1a1a1a` ink | `#1a1a1a` ink |
+| `--color-accent`     | `#9A4A22` deep sienna | `#875A64` deep mauve |
+| `--color-accent-hot` | `#9A4A22` deep sienna | `#B5696B` deep rose |
+| `--color-on-accent`  | `#F7F0E9` pale almond | `#F6F3EE` pale fog |
+
+Contrast (WCAG): body text ≥ 9.7:1, meta ≥ 5.5:1, accent links ≥ 4.6:1, text on accent fills ≥ 5.1:1, borders and hot ornaments ≥ 3.2:1. The accents are deepened versions of the dark-mode hues, because sienna, mauve, and rose are all too light to read as text on a pale background.
+
+**Mode-level tokens** (same for every palette, in `themes.css`): `color-scheme`, `--color-text-strong` (image-card title hover: `#fff` dark / ink light), `--shadow-text` (archive year shadow: black dark / 30% border light), `--glow-opacity` (background blobs: 1 dark / 0.6 light).
+
+Kept as-is in light mode: the duotone tint (now uses each palette's meta color), halftone dots, and the noise overlay.
 
 ### Open questions
 
-- Should the pattern-lib swatches follow the live theme, or always show all four sets?
-- In light mode, should the duotone profile photo keep its tint or go plain grayscale?
+- Do the light-mode blobs need a different color, rather than just lower opacity?

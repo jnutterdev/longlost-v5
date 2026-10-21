@@ -1,7 +1,8 @@
 /*
- * Palettes, set on <html> via data-palette (and data-mode once light mode lands).
+ * Palettes, set on <html> via data-palette and data-mode.
  * Components only use these role tokens; hue names stay in the comments.
- * Rust is also the :root fallback for visitors without JS.
+ * Rust dark is also the :root fallback for visitors without JS.
+ * Light blocks also match a nested [data-palette] (the switcher swatches) inside a light page.
  */
 
 :root,
@@ -29,4 +30,47 @@
   --color-accent: #c4a0a8;     /* mauve */
   --color-accent-hot: #e2b1b1; /* rose */
   --color-on-accent: #1a1a1a;  /* ink */
+}
+
+[data-palette="rust"][data-mode="light"],
+[data-mode="light"] [data-palette="rust"] {
+  --color-bg: #EFE3D9;         /* almond */
+  --color-surface: #F7F0E9;    /* pale almond */
+  --color-border: #767151;     /* olive */
+  --color-meta: #5E5A40;       /* deep olive */
+  --color-glow: #767151;       /* olive */
+  --color-text: #2B2926;       /* char */
+  --color-heading: #1a1a1a;    /* ink */
+  --color-accent: #9A4A22;     /* deep sienna */
+  --color-accent-hot: #9A4A22; /* deep sienna */
+  --color-on-accent: #F7F0E9;  /* pale almond */
+}
+
+[data-palette="dusk"][data-mode="light"],
+[data-mode="light"] [data-palette="dusk"] {
+  --color-bg: #ECE7E0;         /* fog */
+  --color-surface: #F6F3EE;    /* pale fog */
+  --color-border: #6B7F85;     /* deep slate */
+  --color-meta: #4A5D63;       /* storm */
+  --color-glow: #8fa3a8;       /* slate */
+  --color-text: #3A3632;       /* umber */
+  --color-heading: #1a1a1a;    /* ink */
+  --color-accent: #875A64;     /* deep mauve */
+  --color-accent-hot: #B5696B; /* deep rose */
+  --color-on-accent: #F6F3EE;  /* pale fog */
+}
+
+/* Mode-level tokens: the same for every palette. */
+:root {
+  color-scheme: dark;
+  --color-text-strong: #fff;
+  --shadow-text: 3px 3px 0 rgb(0 0 0 / 0.6);
+  --glow-opacity: 1;
+}
+
+[data-mode="light"] {
+  color-scheme: light;
+  --color-text-strong: #1a1a1a;
+  --shadow-text: 3px 3px 0 color-mix(in srgb, var(--color-border) 30%, transparent);
+  --glow-opacity: 0.6;
 }
