@@ -55,7 +55,7 @@
 .prose code {
   font-size: 0.9em;
   padding: 0.1em 0.35em;
-  background: color-mix(in srgb, var(--color-slate) 20%, transparent);
+  background: color-mix(in srgb, var(--color-meta) 20%, transparent);
   color: var(--color-text);
 }
 
@@ -63,7 +63,7 @@
   padding: var(--space-sm);
   overflow-x: auto;
   border: var(--border-card);
-  background: color-mix(in srgb, var(--color-slate) 30%, transparent);
+  background: color-mix(in srgb, var(--color-glow) 30%, transparent);
   font-size: var(--text-sm);
   line-height: 1.6;
 }
@@ -85,7 +85,7 @@
 .prose hr {
   border: none;
   height: 2px;
-  background: var(--color-graphite);
+  background: var(--color-border);
   margin-block: 2.5em;
 }
 

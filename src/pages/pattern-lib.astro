@@ -11,23 +11,42 @@ import TagList from '../components/TagList.astro';
 import TagCloud from '../components/TagCloud.astro';
 import DuotoneImage from '../components/DuotoneImage.astro';
 import Fin from '../components/Fin.astro';
-import tokens from '../styles/tokens.css?raw';
+import themes from '../styles/themes.css?raw';
 import type { Photo, Post } from '../lib/posts';
 import '../styles/prose.css';
 
-// Swatches come straight from tokens.css, so new colors show up automatically.
+interface Swatch {
+  name: string;
+  hex: string;
+  hue: string;
+  role: string;
+}
+
+interface Palette {
+  name: string;
+  swatches: Swatch[];
+}
+
+// Swatches come straight from themes.css, so new palettes and colors show up automatically.
 const colorRoles: Record<string, string> = {
-  ink: 'Page background',
-  char: 'Card surface',
-  graphite: 'Borders, rules, card shadow',
-  slate: 'Muted text, dates, meta',
-  body: 'Body text',
-  cream: 'Headings',
-  mauve: 'Accent: links, hovers, tags',
-  rose: 'Hot accent (rare): section bars, ornaments',
+  bg: 'Page background',
+  surface: 'Card surface',
+  border: 'Borders, rules, card shadow',
+  meta: 'Muted text, dates, meta',
+  glow: 'Background blobs, faint highlights',
+  text: 'Body text',
+  heading: 'Headings',
+  accent: 'Links, hovers, tags',
+  'accent-hot': 'Rare hit: section bars, ornaments, hover shadow',
+  'on-accent': 'Text on accent fills',
 };
-const swatches = [...tokens.matchAll(/--color-([a-z]+):\s*(#[0-9a-fA-F]{3,8})/g)]
-  .map(([, name, hex]) => ({ name, hex: hex.toUpperCase(), role: colorRoles[name] ?? '' }));
+
+const palettes: Palette[] = [...themes.matchAll(/\[data-palette="(\w+)"\]\s*\{([^}]*)\}/g)]
+  .map(([, name, body]) => ({
+    name,
+    swatches: [...body.matchAll(/--color-([a-z-]+):\s*(#[0-9a-fA-F]{3,8});\s*\/\*\s*([a-z]+)\s*\*\//g)]
+      .map(([, token, hex, hue]) => ({ name: token, hex: hex.toUpperCase(), hue, role: colorRoles[token] ?? '' })),
+  }));
 
 const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
 
@@ -122,16 +141,21 @@ const ornaments = [
 
   <section id="colors" class="block">
     <SectionHeading title="Colors" />
-    <ul class="swatches">
-      {swatches.map(({ name, hex, role }) => (
-        <li class="swatch">
-          <span class="chip" style={`background: var(--color-${name})`}></span>
-          <span class="swatch-name">{name}</span>
-          <code class="swatch-hex">{hex}</code>
-          <span class="swatch-role">{role}</span>
-        </li>
-      ))}
-    </ul>
+    {palettes.map(palette => (
+      <div class="palette">
+        <p class="demo-label">{palette.name}</p>
+        <ul class="swatches">
+          {palette.swatches.map(({ name, hex, hue, role }) => (
+            <li class="swatch">
+              <span class="chip" style={`background: ${hex}`}></span>
+              <span class="swatch-name">{name}</span>
+              <code class="swatch-hex">{hex} · {hue}</code>
+              <span class="swatch-role">{role}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </section>
 
   <section id="type" class="block">
@@ -277,7 +301,7 @@ const ornaments = [
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-slate);
+    color: var(--color-meta);
     transition: color var(--ease);
   }
 
@@ -301,7 +325,7 @@ const ornaments = [
 
   .demo-label span {
     margin-left: var(--space-xs);
-    color: var(--color-slate);
+    color: var(--color-meta);
   }
 
   .demo {
@@ -323,6 +347,10 @@ const ornaments = [
   }
 
   /* Colors */
+  .palette + .palette {
+    margin-top: var(--space-3xl);
+  }
+
   .swatches {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
@@ -359,7 +387,7 @@ const ornaments = [
 
   .swatch-role {
     font-size: var(--text-sm);
-    color: var(--color-slate);
+    color: var(--color-meta);
   }
 
   /* Type */
@@ -398,7 +426,7 @@ const ornaments = [
   .font-detail {
     margin: var(--space-2xs) 0 0;
     font-size: var(--text-sm);
-    color: var(--color-slate);
+    color: var(--color-meta);
   }
 
   .specimens {
@@ -410,7 +438,7 @@ const ornaments = [
     grid-template-columns: 1fr;
     gap: var(--space-xs);
     padding-block: var(--space-md);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-slate) 35%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-glow) 35%, transparent);
   }
 
   .specimen dt {
@@ -429,7 +457,7 @@ const ornaments = [
 
   .specimen-spec {
     font-size: var(--text-sm);
-    color: var(--color-slate);
+    color: var(--color-meta);
   }
 
   .specimen dd {
@@ -464,7 +492,7 @@ const ornaments = [
   .ts-year {
     font-size: var(--text-4xl);
     line-height: 1;
-    color: var(--color-slate);
+    color: var(--color-meta);
     text-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
   }
 
@@ -512,7 +540,7 @@ const ornaments = [
     font-weight: 500;
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-meta);
   }
 
   .ts-label {
@@ -520,7 +548,7 @@ const ornaments = [
     font-weight: 500;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-slate);
+    color: var(--color-meta);
   }
 
   .ts-strong {

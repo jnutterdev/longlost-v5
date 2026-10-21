@@ -1,0 +1,32 @@
+/*
+ * Palettes, set on <html> via data-palette (and data-mode once light mode lands).
+ * Components only use these role tokens; hue names stay in the comments.
+ * Rust is also the :root fallback for visitors without JS.
+ */
+
+:root,
+[data-palette="rust"] {
+  --color-bg: #1a1a1a;         /* ink */
+  --color-surface: #262523;    /* char */
+  --color-border: #767151;     /* olive */
+  --color-meta: #9A9478;       /* khaki */
+  --color-glow: #767151;       /* olive */
+  --color-text: #EFE3D9;       /* almond */
+  --color-heading: #EFE3D9;    /* almond */
+  --color-accent: #AB572C;     /* sienna */
+  --color-accent-hot: #AB572C; /* sienna */
+  --color-on-accent: #1a1a1a;  /* ink */
+}
+
+[data-palette="dusk"] {
+  --color-bg: #1a1a1a;         /* ink */
+  --color-surface: #242424;    /* char */
+  --color-border: #4a4a4a;     /* graphite */
+  --color-meta: #8fa3a8;       /* slate */
+  --color-glow: #8fa3a8;       /* slate */
+  --color-text: #c8bfb4;       /* body */
+  --color-heading: #e8e0d4;    /* cream */
+  --color-accent: #c4a0a8;     /* mauve */
+  --color-accent-hot: #e2b1b1; /* rose */
+  --color-on-accent: #1a1a1a;  /* ink */
+}

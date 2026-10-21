@@ -40,14 +40,14 @@ const { tags, active } = Astro.props;
     text-transform: uppercase;
     text-decoration: none;
     color: var(--color-text);
-    border: 1px solid var(--color-slate);
+    border: 1px solid var(--color-meta);
     transition: background-color var(--ease), color var(--ease), border-color var(--ease);
   }
 
   .tag:hover,
   .tag.active {
     background: var(--color-accent);
-    color: var(--color-ink);
+    color: var(--color-on-accent);
     border-color: var(--color-accent);
   }
 </style>

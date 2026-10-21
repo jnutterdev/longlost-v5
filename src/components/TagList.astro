@@ -41,15 +41,15 @@ const { tags, linked = true } = Astro.props;
     text-transform: uppercase;
     text-decoration: none;
     color: var(--color-text);
-    background: rgb(26 26 26 / 0.5);
-    border: 1px solid var(--color-slate);
+    background: color-mix(in srgb, var(--color-bg) 50%, transparent);
+    border: 1px solid var(--color-meta);
     transition: background-color var(--ease), color var(--ease), border-color var(--ease);
   }
 
   a.tag:hover,
   a.tag:focus-visible {
     background: var(--color-accent);
-    color: var(--color-ink);
+    color: var(--color-on-accent);
     border-color: var(--color-accent);
   }
 </style>

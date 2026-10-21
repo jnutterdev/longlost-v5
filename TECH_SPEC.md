@@ -39,20 +39,9 @@ The live reference is **`/pattern-lib`** (`src/pages/pattern-lib.astro`): swatch
 
 ### Tokens
 
-`src/styles/tokens.css`, imported once in the base layout:
+Colors are role tokens defined per palette in `src/styles/themes.css` (see [Theming](#theming-2026-10-21--draft) for the full table). Rust, the original ink/char/olive/khaki/almond/sienna set, is the default and the `:root` fallback; Dusk is slate/mauve/rose. Components only reference role tokens (`--color-bg`, `--color-meta`, `--color-accent`, …), never hue names. `--color-text-muted` (text at 75%) is derived in `tokens.css`. Rust's sienna is about 3.4:1 on ink, fine for large text and fills but borderline for small text.
 
-| Token            | Value     | Role                                   |
-| ---------------- | --------- | -------------------------------------- |
-| `--color-ink`    | `#1a1a1a` | Page background                        |
-| `--color-char`   | `#262523` | Card surface                           |
-| `--color-olive`  | `#767151` | Borders, rules, card shadow            |
-| `--color-khaki`  | `#9A9478` | Muted text, dates, meta (5.6:1 on ink) |
-| `--color-almond` | `#EFE3D9` | Body text                              |
-| `--color-sienna` | `#AB572C` | Accent: links, hovers, tags, ornaments |
-
-Semantic aliases: `--color-text` (almond), `--color-text-muted` (almond at 75%), `--color-accent` (sienna). Sienna is about 3.4:1 on ink, fine for large text and fills but borderline for small text.
-
-The token file also defines a type scale (`--text-xs` 0.6875rem through `--text-5xl` 3.75rem), tracking, a spacing scale (`--space-2xs` through `--space-3xl`), card border/shadow/lift, layout widths (`--content-max` 72rem, `--prose-max` 42rem), and `--ease`.
+`src/styles/tokens.css` (imported after `themes.css` in the base layout) defines a type scale (`--text-xs` 0.6875rem through `--text-5xl` 3.75rem), tracking, a spacing scale (`--space-2xs` through `--space-3xl`), card border/shadow/lift, layout widths (`--content-max` 72rem, `--prose-max` 42rem), and `--ease`.
 
 Global (non-scoped) styles in `src/styles/global.css`: body, headings, `::selection`, focus ring, noise overlay, halftone utility, and the shared card classes below. Prose styles live in `src/styles/prose.css`.
 

@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: var(--color-ink);
+  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -26,7 +26,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  color: var(--color-cream);
+  color: var(--color-heading);
   font-weight: 700;
   margin: 0;
 }
@@ -42,7 +42,7 @@ img {
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
 }
 
 :focus-visible {
@@ -79,7 +79,7 @@ img {
 }
 
 .halftone {
-  background-image: radial-gradient(var(--color-slate) 1px, transparent 1px);
+  background-image: radial-gradient(var(--color-meta) 1px, transparent 1px);
   background-size: 8px 8px;
   opacity: 0.2;
 }
@@ -89,7 +89,7 @@ img {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  background-color: var(--color-char);
+  background-color: var(--color-surface);
   border: var(--border-card);
   box-shadow: var(--shadow-offset);
   transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
@@ -113,7 +113,7 @@ img {
 
 /* Deco inset frame: a thin inner line with small square blocks at each corner. */
 .punk-card--framed::after {
-  --frame-color: var(--color-graphite);
+  --frame-color: var(--color-border);
   content: '';
   position: absolute;
   inset: 6px;

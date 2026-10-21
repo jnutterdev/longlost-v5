@@ -1,16 +1,5 @@
 :root {
-  --color-ink: #1a1a1a;
-  --color-char: #242424;
-  --color-graphite: #4a4a4a;
-  --color-slate: #8fa3a8;
-  --color-body: #c8bfb4;
-  --color-cream: #e8e0d4;
-  --color-mauve: #c4a0a8;
-  --color-rose: #e2b1b1;
-
-  --color-text: var(--color-body);
-  --color-text-muted: color-mix(in srgb, var(--color-body) 75%, transparent);
-  --color-accent: var(--color-mauve);
+  --color-text-muted: color-mix(in srgb, var(--color-text) 75%, transparent);
 
   --font-display: 'Syne', sans-serif;
   --font-body: 'Outfit', sans-serif;
@@ -37,9 +26,9 @@
   --space-2xl: 3rem;
   --space-3xl: 5rem;
 
-  --border-card: 2px solid var(--color-graphite);
-  --shadow-offset: 6px 6px 0 var(--color-graphite);
-  --shadow-offset-hover: 9px 9px 0 var(--color-rose);
+  --border-card: 2px solid var(--color-border);
+  --shadow-offset: 6px 6px 0 var(--color-border);
+  --shadow-offset-hover: 9px 9px 0 var(--color-accent-hot);
   --lift: translate(-3px, -3px);
 
   --content-max: 72rem;
