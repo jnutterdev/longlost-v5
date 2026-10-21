@@ -26,6 +26,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
+  color: var(--color-cream);
   font-weight: 700;
   margin: 0;
 }
@@ -78,7 +79,7 @@ img {
 }
 
 .halftone {
-  background-image: radial-gradient(var(--color-khaki) 1px, transparent 1px);
+  background-image: radial-gradient(var(--color-slate) 1px, transparent 1px);
   background-size: 8px 8px;
   opacity: 0.2;
 }
@@ -112,7 +113,7 @@ img {
 
 /* Deco inset frame: a thin inner line with small square blocks at each corner. */
 .punk-card--framed::after {
-  --frame-color: var(--color-olive);
+  --frame-color: var(--color-graphite);
   content: '';
   position: absolute;
   inset: 6px;

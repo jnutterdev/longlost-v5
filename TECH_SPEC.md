@@ -255,3 +255,79 @@ Where the first build differed from the original plan:
 - ~~`Dread-and-Discomfort.md` broken image path~~: fixed (`/images/dread-and-discomfort.jpg`).
 - ~~`stuff-to-get-excited-about.md` escaped `\*\*Klara and the Sun\*\*`~~: fixed.
 - Only two posts are `featured: true`, so the wide featured card doesn't appear in the home page's latest 7.
+
+## Theming (2026-10-21) — draft
+
+Let readers switch between two palettes and between dark and light modes. The `alternate-colors` branch currently hard-swaps the palette to slate/mauve. This work turns that swap into a choice.
+
+### Goals
+
+- Two palettes: **Rust** (the original olive/sienna, default) and **Dusk** (slate/mauve/rose). Names confirmed.
+- Two modes, independent of palette: **dark** and **light**, plus **auto** (follow the OS, the default).
+- Color tokens named by **role**, not hue, so palettes are just value sets.
+- A settings button in the nav on desktop. On mobile, the same controls sit inside the hamburger menu.
+- No flash of the wrong theme on load, and no new dependencies.
+
+### Semantic tokens
+
+Components only reference these. Hue names move into the palette definitions.
+
+| Token                 | Role                                                  | Rust (dark) | Dusk (dark) |
+| --------------------- | ----------------------------------------------------- | ----------- | ----------- |
+| `--color-bg`          | Page background                                       | `#1a1a1a`   | `#1a1a1a`   |
+| `--color-surface`     | Card surface                                          | `#262523`   | `#242424`   |
+| `--color-border`      | Borders, rules, separators, card shadow               | `#767151`   | `#4a4a4a`   |
+| `--color-meta`        | Muted text, dates, nav links, tag borders, duotone    | `#9A9478`   | `#8fa3a8`   |
+| `--color-glow`        | Background blobs, faint highlights, row rules         | `#767151`   | `#8fa3a8`   |
+| `--color-text`        | Body text                                             | `#EFE3D9`   | `#c8bfb4`   |
+| `--color-heading`     | Headings                                              | `#EFE3D9`   | `#e8e0d4`   |
+| `--color-accent`      | Links, hovers, tags, sunburst                         | `#AB572C`   | `#c4a0a8`   |
+| `--color-accent-hot`  | Rare hit: section bars, Fin ornament, hover shadow    | `#AB572C`   | `#e2b1b1`   |
+| `--color-on-accent`   | Text/icons placed on accent or meta fills             | `#1a1a1a`   | `#1a1a1a`   |
+
+Derived (not set per palette): `--color-text-muted` = `color-mix(in srgb, var(--color-text) 75%, transparent)`. Translucent tints keep using `color-mix()` against a role token.
+
+`--color-ink` usages split by intent: page/menu background → `--color-bg`, text on a fill → `--color-on-accent`. The card-fade gradient in `PostCardImage` also uses `--color-bg`.
+
+Left as-is: the `Fin` SVG mask (`#fff`/`#000`), the `#fff` caption text and the `rgb(0 0 0 / 0.6)` text shadows over photos.
+
+### Where values live
+
+- `src/styles/themes.css` (new): one block per palette × mode.
+  - `:root, [data-palette="rust"]` holds Rust dark, the no-JS fallback.
+  - `[data-palette="dusk"]` holds Dusk dark.
+  - `[data-palette="rust"][data-mode="light"]` and `[data-palette="dusk"][data-mode="light"]` hold the light variants (phase 3).
+- `src/styles/tokens.css` keeps type, spacing, layout, and the border/shadow tokens, which now reference role tokens.
+
+### Applying the theme
+
+- `<html>` carries `data-palette` and `data-mode`. The mode attribute is always resolved to `dark` or `light`; JS turns `auto` into one of them, so the CSS never needs a `prefers-color-scheme` branch.
+- An inline `<script is:inline>` at the top of `<head>` in `Base.astro` reads localStorage, resolves `auto` with `matchMedia('(prefers-color-scheme: light)')`, and sets both attributes before first paint. That prevents the flash.
+- Stored keys are `llf-palette` (`rust`|`dusk`) and `llf-mode` (`auto`|`dark`|`light`). Every read and write is wrapped in `try/catch`, and the defaults are `rust` + `auto`.
+- In `auto`, a `matchMedia` change listener re-resolves the mode live.
+- `<meta name="color-scheme">` and `<meta name="theme-color">` are updated to match the mode, which fixes scrollbars and form controls.
+
+### Settings UI
+
+- `ThemeControls.astro` holds two radio groups: Palette (swatch + name) and Mode (Dark / Light / Auto). It takes an `idPrefix` prop so it can render twice without duplicate IDs.
+- **Desktop:** a gear button at the end of the nav links opens a panel using the native `popover` attribute, which gives light-dismiss and Esc handling for free. The panel uses the punk card treatment (border + offset shadow).
+- **Mobile (< 48rem):** the gear is hidden, and `ThemeControls` renders as the last item inside the hamburger dropdown, below a border rule.
+- One script handles all control instances. On change it sets the attributes, saves the choice, and syncs the checked state across both instances.
+- Accessibility: real `<fieldset>`/`<legend>` + radios, a visible focus ring, an `aria-label` on the gear, and the panel is reachable by keyboard.
+- Icons: a Font Awesome free gear/sliders icon, inlined as SVG to match the existing hamburger.
+
+### Pattern library
+
+- Swatches show each palette side by side, per mode, labeled by role. They're parsed from `themes.css` instead of `tokens.css`.
+- Add a demo of `ThemeControls`.
+
+### Phases
+
+1. **Tokens:** rename every color usage to role tokens, add `themes.css` with Rust + Dusk dark, and keep Rust as the default. The site should look exactly like `main` with Rust, and exactly like the current branch with Dusk.
+2. **Switcher:** the inline head script, `ThemeControls`, the desktop popover, and the mobile menu placement.
+3. **Light mode:** design light values for both palettes, then check contrast (body text ≥ 4.5:1, meta ≥ 4.5:1, accent fills/large text ≥ 3:1). Review the duotone tint, halftone dots, noise overlay, and blobs, which may need lower opacity or a separate blend mode on light backgrounds.
+
+### Open questions
+
+- Should the pattern-lib swatches follow the live theme, or always show all four sets?
+- In light mode, should the duotone profile photo keep its tint or go plain grayscale?

@@ -48,9 +48,9 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(circle at 50% 100%, rgb(171 87 44 / 0.35) 0 4rem, transparent calc(4rem + 1px)),
-      radial-gradient(circle at 50% 100%, transparent 5.5rem, rgb(171 87 44 / 0.4) 5.5rem calc(5.5rem + 2px), transparent calc(5.5rem + 2px)),
-      repeating-conic-gradient(from -90deg at 50% 100%, rgb(171 87 44 / 0.2) 0deg 1.5deg, transparent 1.5deg 9deg);
+      radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--color-accent) 35%, transparent) 0 4rem, transparent calc(4rem + 1px)),
+      radial-gradient(circle at 50% 100%, transparent 5.5rem, color-mix(in srgb, var(--color-accent) 40%, transparent) 5.5rem calc(5.5rem + 2px), transparent calc(5.5rem + 2px)),
+      repeating-conic-gradient(from -90deg at 50% 100%, color-mix(in srgb, var(--color-accent) 20%, transparent) 0deg 1.5deg, transparent 1.5deg 9deg);
     mask-image: radial-gradient(circle at 50% 100%, #000 20%, transparent 75%);
   }
 
@@ -84,7 +84,7 @@ const { tagline, headline, description, image, imageAlt = '' } = Astro.props;
     font-size: 0.75rem;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   .headline {

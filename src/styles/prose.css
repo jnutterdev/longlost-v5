@@ -48,14 +48,14 @@
   margin-inline: 0;
   padding: var(--space-sm) var(--space-md);
   border-left: 2px solid var(--color-accent);
-  background: rgb(171 87 44 / 0.06);
+  background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   font-style: italic;
 }
 
 .prose code {
   font-size: 0.9em;
   padding: 0.1em 0.35em;
-  background: rgb(154 148 120 / 0.2);
+  background: color-mix(in srgb, var(--color-slate) 20%, transparent);
   color: var(--color-text);
 }
 
@@ -63,7 +63,7 @@
   padding: var(--space-sm);
   overflow-x: auto;
   border: var(--border-card);
-  background: rgb(118 113 81 / 0.3);
+  background: color-mix(in srgb, var(--color-slate) 30%, transparent);
   font-size: var(--text-sm);
   line-height: 1.6;
 }
@@ -85,7 +85,7 @@
 .prose hr {
   border: none;
   height: 2px;
-  background: var(--color-olive);
+  background: var(--color-graphite);
   margin-block: 2.5em;
 }
 

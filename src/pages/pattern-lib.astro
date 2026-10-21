@@ -19,10 +19,12 @@ import '../styles/prose.css';
 const colorRoles: Record<string, string> = {
   ink: 'Page background',
   char: 'Card surface',
-  olive: 'Borders, rules, card shadow',
-  khaki: 'Muted text, dates, meta',
-  almond: 'Body text',
-  sienna: 'Accent: links, hovers, tags, ornaments',
+  graphite: 'Borders, rules, card shadow',
+  slate: 'Muted text, dates, meta',
+  body: 'Body text',
+  cream: 'Headings',
+  mauve: 'Accent: links, hovers, tags',
+  rose: 'Hot accent (rare): section bars, ornaments',
 };
 const swatches = [...tokens.matchAll(/--color-([a-z]+):\s*(#[0-9a-fA-F]{3,8})/g)]
   .map(([, name, hex]) => ({ name, hex: hex.toUpperCase(), role: colorRoles[name] ?? '' }));
@@ -275,7 +277,7 @@ const ornaments = [
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-khaki);
+    color: var(--color-slate);
     transition: color var(--ease);
   }
 
@@ -299,7 +301,7 @@ const ornaments = [
 
   .demo-label span {
     margin-left: var(--space-xs);
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   .demo {
@@ -357,7 +359,7 @@ const ornaments = [
 
   .swatch-role {
     font-size: var(--text-sm);
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   /* Type */
@@ -396,7 +398,7 @@ const ornaments = [
   .font-detail {
     margin: var(--space-2xs) 0 0;
     font-size: var(--text-sm);
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   .specimens {
@@ -408,7 +410,7 @@ const ornaments = [
     grid-template-columns: 1fr;
     gap: var(--space-xs);
     padding-block: var(--space-md);
-    border-bottom: 1px solid rgb(118 113 81 / 0.35);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-slate) 35%, transparent);
   }
 
   .specimen dt {
@@ -427,7 +429,7 @@ const ornaments = [
 
   .specimen-spec {
     font-size: var(--text-sm);
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   .specimen dd {
@@ -462,7 +464,7 @@ const ornaments = [
   .ts-year {
     font-size: var(--text-4xl);
     line-height: 1;
-    color: var(--color-khaki);
+    color: var(--color-slate);
     text-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
   }
 
@@ -510,7 +512,7 @@ const ornaments = [
     font-weight: 500;
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   .ts-label {
@@ -518,7 +520,7 @@ const ornaments = [
     font-weight: 500;
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: var(--color-khaki);
+    color: var(--color-slate);
   }
 
   .ts-strong {
